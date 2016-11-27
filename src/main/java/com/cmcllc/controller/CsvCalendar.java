@@ -18,12 +18,7 @@ public class CsvCalendar {
 
   @RequestMapping("/csv")
   public String convertCsvFile() {
-    logger.trace("This is CsvCalendar's trace.");
     logger.debug("Finally hit the convertCsvFile method!!!");
-    logger.debug("This is CsvCalendar's debug.");
-    logger.info("This is CsvCalendar's info.");
-    logger.warn("This is CsvCalendar's warn.");
-    logger.error("This is CsvCalendar's error.");
     return "Hello world!!";
   }
 }
