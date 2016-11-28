@@ -7,6 +7,7 @@ import org.pojomatic.annotations.AutoProperty;
 
 import java.net.URL;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class Alarm extends CalendarBase {
    */
   private AlarmAction action;
   /**
-   * This property specifies when an alarm will trigger.
+   * This property specifies when an alarm will trigger. We are defaulting to a date-time
+   * trigger, therefore input needs to specify exactly when the alarm should occur.
    *
    * The default value type is DURATION.
    *
@@ -41,7 +43,7 @@ public class Alarm extends CalendarBase {
    *
    * https://tools.ietf.org/html/rfc5545#section-3.8.6.3
    */
-  private String trigger;
+  private LocalDateTime trigger;
 
   /**
    * This value type is used to identify properties that contain
@@ -50,6 +52,7 @@ public class Alarm extends CalendarBase {
    * There is a lot here, see specification for details.
    *
    * https://tools.ietf.org/html/rfc5545#section-3.3.6
+   * @deprecated
    */
   private Duration duration;
 
@@ -99,11 +102,11 @@ public class Alarm extends CalendarBase {
     this.action = action;
   }
 
-  public String getTrigger() {
+  public LocalDateTime getTrigger() {
     return trigger;
   }
 
-  public void setTrigger(String trigger) {
+  public void setTrigger(LocalDateTime trigger) {
     this.trigger = trigger;
   }
 

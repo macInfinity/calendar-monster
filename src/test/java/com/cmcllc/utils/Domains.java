@@ -75,7 +75,7 @@ public class Domains {
       return setField("action", action);
     }
 
-    public AlarmBuilder setTrigger(String trigger) {
+    public AlarmBuilder setTrigger(LocalDateTime trigger) {
       return setField("trigger", trigger);
     }
 
