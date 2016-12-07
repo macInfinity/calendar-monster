@@ -97,6 +97,9 @@ public class CalendarParserService {
         CsvPreference.STANDARD_PREFERENCE)) {
 
       CalendarEvent calendarEvent;
+      // skip the header row, this could cause some issues for user data because I'm not
+      // looking at what they are telling me they have, no way to catch errors they may have.
+      // TODO: consider parsing actual headers to make sure input is correct
       beanReader.getHeader(true);
 
       List<CalendarEvent> events = new ArrayList<>();
