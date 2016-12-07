@@ -1,12 +1,13 @@
 package com.cmcllc.utils;
 
-import com.cmcllc.domain.Alarm;
-import com.cmcllc.domain.Event;
+import com.cmcllc.domain.CalendarEvent;
 import mockit.Deencapsulation;
 
 import java.net.URL;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,76 +15,42 @@ import java.util.Map;
  * Created by chrismaki on 11/27/16.
  */
 public class Domains {
+  public static CalendarEventBuilder newCalendarEvent() {
+    return new CalendarEventBuilder();
+  }
 
-  public static EventBuilder newEvent() { return new EventBuilder(); }
-  
-  public static class EventBuilder extends Builder<Event, EventBuilder> {
+  public static class CalendarEventBuilder extends Builder<CalendarEvent, CalendarEventBuilder> {
 
-    public EventBuilder setDateTimeStamp(LocalDateTime dateTimeStamp) {
-      return setField("dateTimeStamp", dateTimeStamp);
+    public CalendarEventBuilder setSubject(String subject) {
+      return setField("subject", subject);
     }
-    
-    public EventBuilder setDateTimeStart(LocalDateTime dateTimeStart) {
-      return setField("dateTimeStart", dateTimeStart);
+    public CalendarEventBuilder setStartDate(LocalDate startDate) {
+      return setField("startDate", startDate);
     }
-    
-    public EventBuilder setDateTimeEnd(LocalDateTime dateTimeEnd) {
-      return setField("dateTimeEnd", dateTimeEnd);
+    public CalendarEventBuilder setStartTime(LocalTime startTime) {
+      return setField("startTime", startTime);
     }
-    
-    public EventBuilder setLocation(String location) {
-      return setField("location", location);
+    public CalendarEventBuilder setEndDate(LocalDate endDate) {
+      return setField("endDate", endDate);
     }
-    
-    public EventBuilder setPriority(int priority) {
-      return setField("priority", priority);
+    public CalendarEventBuilder setEndTime(LocalTime endTime) {
+      return setField("endTime", endTime);
     }
-    
-    public EventBuilder setComment(String comment) {
-      return setField("comment", comment);
+    @Override
+    protected CalendarEvent newInstance() {
+      return new CalendarEvent();
     }
-    
-    public EventBuilder setAllDayEvent(boolean allDayEvent) {
+
+    public CalendarEventBuilder setAllDayEvent(boolean allDayEvent) {
       return setField("allDayEvent", allDayEvent);
     }
-    
-    @Override
-    protected Event newInstance() {
-      return new Event();
-    }
-  }
-  public static AlarmBuilder newAlarm() {
-    return new AlarmBuilder();
-  }
 
-  public static class AlarmBuilder extends Builder<Alarm, AlarmBuilder> {
-
-    public AlarmBuilder setDuration(Duration duration) {
-      return setField("duration", duration);
+    public CalendarEventBuilder setLocation(String location) {
+      return setField("location", location);
     }
-    
-    public AlarmBuilder setRepeat(int repeat) {
-      return setField("repeat", repeat);
+    public CalendarEventBuilder setPrivateEvent(boolean privateEvent) {
+      return setField("privateEvent", privateEvent);
     }
-    
-    public AlarmBuilder setUrl(URL url) {
-      return setField("url", url);
-    }
-    
-    
-    public AlarmBuilder setAction(Alarm.AlarmAction action) {
-      return setField("action", action);
-    }
-
-    public AlarmBuilder setTrigger(LocalDateTime trigger) {
-      return setField("trigger", trigger);
-    }
-
-    @Override
-    protected Alarm newInstance() {
-      return new Alarm();
-    }
-
   }
 
   /**
