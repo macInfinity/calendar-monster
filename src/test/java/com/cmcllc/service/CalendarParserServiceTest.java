@@ -8,19 +8,17 @@ import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.ProdId;
-import net.fortuna.ical4j.model.property.Uid;
 import net.fortuna.ical4j.model.property.Version;
-import org.hamcrest.core.IsNull;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
@@ -39,10 +37,12 @@ public class CalendarParserServiceTest {
   private static final String OFF_SEASON_AM_CVS = "OffSeason-am.csv";
   private static final String TESTER_CSV = "tester.csv";
   private static final String TESTER2_CSV = "tester2.csv";
+  private static final String ALARM_CSV = "alarms.csv";
   private String path;
   private String pathAm;
   private String pathTester;
   private String pathTester2;
+  private String pathAlarms;
 
   private CalendarParserService calendarParserService;
 
@@ -52,6 +52,7 @@ public class CalendarParserServiceTest {
     pathAm = getClass().getClassLoader().getResource(OFF_SEASON_AM_CVS).getPath();
     pathTester = getClass().getClassLoader().getResource(TESTER_CSV).getPath();
     pathTester2 = getClass().getClassLoader().getResource(TESTER2_CSV).getPath();
+    pathAlarms = getClass().getClassLoader().getResource(ALARM_CSV).getPath();
     calendarParserService = new CalendarParserService();
   }
 
@@ -77,9 +78,16 @@ public class CalendarParserServiceTest {
 
   @Test
   public void testParseAndCreateCalendar() throws IOException {
-    String result = calendarParserService.createCalendarFile(path);
+    String result = calendarParserService.createCalendarStringFromFile(path);
 
     System.out.println(result);
+  }
+
+  @Test
+  public void testCreateFile() throws IOException {
+    Path path = calendarParserService.createCalendarFile(pathAlarms);
+    System.out.println(path);
+
   }
   @Test
   public void createCalendar() throws Exception {
@@ -93,6 +101,12 @@ public class CalendarParserServiceTest {
     assertThat(vevent.getProperties().getProperty("SUMMARY").getValue(), is("the Subject"));
   }
 
+  @Test
+  public void testParsAlarms() throws IOException {
+    String result = calendarParserService.createCalendarStringFromFile(pathAlarms);
+
+    System.out.println(result);
+  }
   @Test
   public void createCalendarJustDate() throws Exception {
     CalendarEvent event = Domains.newCalendarEvent().setStartDate(LocalDate.of
@@ -139,7 +153,8 @@ public class CalendarParserServiceTest {
     Optional<VEvent> event = CalendarEventUtil.createVEvent(Domains.newCalendarEvent()
         .setStartDate(LocalDate.of(2016, 2, 2)).setEndDate(LocalDate.of(2016,2,1))
         .setSubject("subject").setAllDayEvent(true).setDescription("description")
-        .setLocation("location").setPrivateEvent(true).build());
+        .setLocation("location").setPrivateEvent(true).setAlarmDescription("alarm description")
+        .setAlarmMinutes(5).build());
 
     // turns out you can create an event without and end date before the start....
     assertThat(event, isPresent());
@@ -154,6 +169,9 @@ public class CalendarParserServiceTest {
     assertThat(result, containsString("description"));
     assertThat(result, containsString("PRIVATE"));
     assertThat(result, containsString("subject"));
+    assertThat(result, containsString("VALARM"));
+    assertThat(result, containsString("DISPLAY"));
+    assertThat(result, containsString("TRIGGER:-PT5M"));
   }
 
   @Test

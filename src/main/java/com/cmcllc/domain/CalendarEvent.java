@@ -24,6 +24,12 @@ public class CalendarEvent {
   private Boolean privateEvent = false;
   private UUID uuid = UUID.randomUUID();
 
+  // alarm properties, only supporting disprop
+  private int alarmDays;            // for the duration of the alarm
+  private int alarmHours;           // for the duration of the alarm
+  private int alarmMinutes;         // for the duration of the alarm
+  private String alarmDescription;  // for popup
+
   public String getSubject() {
     return subject;
   }
@@ -100,8 +106,40 @@ public class CalendarEvent {
     return uuid;
   }
 
+  public int getAlarmDays() {
+    return alarmDays;
+  }
+
+  public void setAlarmDays(int alarmDays) {
+    this.alarmDays = alarmDays;
+  }
+
+  public int getAlarmHours() {
+    return alarmHours;
+  }
+
+  public void setAlarmHours(int alarmHours) {
+    this.alarmHours = alarmHours;
+  }
+
+  public int getAlarmMinutes() {
+    return alarmMinutes;
+  }
+
+  public void setAlarmMinutes(int alarmMinutes) {
+    this.alarmMinutes = alarmMinutes;
+  }
+
+  public String getAlarmDescription() {
+    return alarmDescription;
+  }
+
+  public void setAlarmDescription(String alarmDescription) {
+    this.alarmDescription = alarmDescription;
+  }
+
   public boolean isValid() {
-    // TODO: this will need a lot more becuase there are multiple situations where partial data
+    // TODO: this will need a lot more because there are multiple situations where partial data
     // doesn't make sense
     return StringUtils.isNotBlank(getSubject()) && (getStartDate() != null);
   }
