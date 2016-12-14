@@ -3,6 +3,7 @@ package com.cmcllc.service;
 import com.cmcllc.domain.CalendarEvent;
 import com.cmcllc.parse.CalendarEventUtil;
 import com.cmcllc.utils.Domains;
+import mockit.Mocked;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
@@ -46,6 +47,9 @@ public class CalendarParserServiceTest {
 
   private CalendarParserService calendarParserService;
 
+  @Mocked
+  private StorageService storageService;
+
   @Before
   public void setup() {
     path = getClass().getClassLoader().getResource(OFF_SEASON_CVS).getPath();
@@ -53,7 +57,7 @@ public class CalendarParserServiceTest {
     pathTester = getClass().getClassLoader().getResource(TESTER_CSV).getPath();
     pathTester2 = getClass().getClassLoader().getResource(TESTER2_CSV).getPath();
     pathAlarms = getClass().getClassLoader().getResource(ALARM_CSV).getPath();
-    calendarParserService = new CalendarParserService();
+    calendarParserService = new CalendarParserService(storageService);
   }
 
   @Test

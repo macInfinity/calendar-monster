@@ -1,12 +1,14 @@
 package com.cmcllc.util;
 
-import jersey.repackaged.com.google.common.base.Preconditions;
+import com.google.common.base.Preconditions;
 import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.DateTime;
-import org.apache.tomcat.jni.Local;
 
 import java.text.ParseException;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.format.DateTimeFormatter.BASIC_ISO_DATE;

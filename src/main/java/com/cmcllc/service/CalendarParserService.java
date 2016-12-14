@@ -4,6 +4,7 @@ import com.cmcllc.domain.CalendarEvent;
 import com.cmcllc.parse.CalendarEventUtil;
 import com.cmcllc.parse.ParseLocalTimeMixed;
 import com.cmcllc.parse.ParseStringTrim;
+import com.google.common.annotations.VisibleForTesting;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
@@ -12,6 +13,7 @@ import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseBool;
@@ -27,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -87,6 +88,13 @@ public class CalendarParserService {
       "alarmMinutes"
   };
 
+  private StorageService storageService;
+
+  @Autowired
+  public CalendarParserService(StorageService storageService) {
+    this.storageService = storageService;
+  }
+
   /**
    * Creates a temporary file containing the iCal data based on the CSV files passed into this
    * method.
@@ -98,7 +106,7 @@ public class CalendarParserService {
   public Path createCalendarFile(String pathToFile) throws IOException {
     Calendar cal = createCalendar(pathToFile);
 
-    Path path = Files.createTempFile(null, null);
+    Path path = storageService.createTempFile(null, null);
 
     FileOutputStream output = new FileOutputStream(path.toFile());
     CalendarOutputter outputter = new CalendarOutputter();
@@ -107,7 +115,8 @@ public class CalendarParserService {
     return path;
   }
 
-  public String createCalendarStringFromFile(String pathToFile) throws IOException {
+  @VisibleForTesting
+  protected String createCalendarStringFromFile(String pathToFile) throws IOException {
     Calendar cal = createCalendar(pathToFile);
 
     ByteArrayOutputStream output = new ByteArrayOutputStream();
