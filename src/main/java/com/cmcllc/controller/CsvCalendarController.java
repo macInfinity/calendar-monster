@@ -42,12 +42,14 @@ public class CsvCalendarController {
   public ResponseEntity<Void> uploadFile(@RequestParam("file") MultipartFile file,
                                          UriComponentsBuilder uriComponentsBuilder) throws Exception {
 
-    Path token = storageService.storeFile(file);
+    Path csvFile = storageService.storeFile(file);
+    Path icsFile = storageService.createTempFile(null, null);
+
     // TODO: calendar service should not store a file, it should return a file that we can choose
     // to store in the storage service. Otherwise we are exposing the internals of
     // calendarParserService here, later in serveFile() we use the token to load the file from
     // storageService, implying we know what this service is doing, bad idea. Poor SoC
-    Path icsFile = calendarParserService.createCalendarFile(token.toAbsolutePath().toString());
+    calendarParserService.createCalendarFile(csvFile.toAbsolutePath().toString(), icsFile);
 
     UriComponents uriComponents = uriComponentsBuilder
         .path("/calendar/ics/{name}")

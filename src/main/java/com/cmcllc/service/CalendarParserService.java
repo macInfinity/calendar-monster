@@ -13,7 +13,6 @@ import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseBool;
@@ -88,31 +87,21 @@ public class CalendarParserService {
       "alarmMinutes"
   };
 
-  private StorageService storageService;
-
-  @Autowired
-  public CalendarParserService(StorageService storageService) {
-    this.storageService = storageService;
-  }
-
   /**
    * Creates a temporary file containing the iCal data based on the CSV files passed into this
    * method.
    *
-   * @param pathToFile
+   * @param csvFlie
    * @return path to the temporary, ics file
    * @throws IOException
    */
-  public Path createCalendarFile(String pathToFile) throws IOException {
-    Calendar cal = createCalendar(pathToFile);
+  public void createCalendarFile(String csvFlie, Path outputFile) throws IOException {
+    Calendar cal = createCalendar(csvFlie);
 
-    Path path = storageService.createTempFile(null, null);
 
-    FileOutputStream output = new FileOutputStream(path.toFile());
+    FileOutputStream output = new FileOutputStream(outputFile.toFile());
     CalendarOutputter outputter = new CalendarOutputter();
     outputter.output(cal, output);
-
-    return path;
   }
 
   @VisibleForTesting

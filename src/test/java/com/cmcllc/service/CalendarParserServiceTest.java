@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -45,10 +46,7 @@ public class CalendarParserServiceTest {
   private String pathTester2;
   private String pathAlarms;
 
-  private CalendarParserService calendarParserService;
-
-  @Mocked
-  private StorageService storageService;
+  private CalendarParserService calendarParserService = new CalendarParserService();
 
   @Before
   public void setup() {
@@ -57,7 +55,6 @@ public class CalendarParserServiceTest {
     pathTester = getClass().getClassLoader().getResource(TESTER_CSV).getPath();
     pathTester2 = getClass().getClassLoader().getResource(TESTER2_CSV).getPath();
     pathAlarms = getClass().getClassLoader().getResource(ALARM_CSV).getPath();
-    calendarParserService = new CalendarParserService(storageService);
   }
 
   @Test
@@ -89,7 +86,8 @@ public class CalendarParserServiceTest {
 
   @Test
   public void testCreateFile() throws IOException {
-    Path path = calendarParserService.createCalendarFile(pathAlarms);
+    Path path = Files.createTempFile(null, null);
+    calendarParserService.createCalendarFile(pathAlarms, path);
     System.out.println(path);
 
   }

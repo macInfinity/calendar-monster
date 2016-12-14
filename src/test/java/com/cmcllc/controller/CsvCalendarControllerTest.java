@@ -51,10 +51,9 @@ public class CsvCalendarControllerTest {
         "text/plain", Files.readAllBytes(offSeasonData));
 
     MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/convert/csv")
+    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/calendar")
         .file(firstFile))
-        .andExpect(status().is(200))
-        .andExpect(content().string("redirect:/"));
+        .andExpect(status().is(201));
 
   }
 
