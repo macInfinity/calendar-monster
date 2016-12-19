@@ -20,27 +20,47 @@
         </tr>
         <tr>
             <td></td>
-            <td><input id="file-upload-button" type="submit" value="Upload File" /></td>
+            <td><input id="file-upload-button" type="button" value="Upload File" /></td>
         </tr>
         <tr>
             <td colspan="2"><span id="file-upload-message"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span id="file-upload-link"/></td>
         </tr>
     </table>
 </form>
 </p>
 <script>
-    $('#file-upload-button').click(function() {
+//    var handle201 = function(data, textStatus, jqXHR) {
+//        alert('201');
+//        console.log(data);
+//        console.log(textStatus);
+//        console.log(jqXHR);
+//    };
+//    var handle404 = function(data, textStatus, jqXHR) {
+//        alert('404');
+//    };
+
+    $('#file-upload-button').on("click", function() {
        var formData = new FormData($('form')[0]);
        $.ajax({
            url: '/calendar',
            type: 'POST',
            data: formData,
+           contentType: false,
            processData: false,
            cache: false,
-           success: function () {
+//           statusCode: {
+//               201: handle201,
+//               404: handle404
+//           },
+           success: function(data, textStatus, request) {
                $('#file-upload-message').text('File uploaded Successfully!');
+               var location = request.getResponseHeader('Location');
+               $('#file-upload-link').text('Download your ics file: ' + location);
            },
-           error: function() {
+           error: function (request, textStatus, errorThrown) {
                $('#file-upload-message').text('Error uploading file.');
            }
        });

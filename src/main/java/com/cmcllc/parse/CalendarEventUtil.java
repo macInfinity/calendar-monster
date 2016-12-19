@@ -45,6 +45,7 @@ public class CalendarEventUtil {
         vEvent = new VEvent(toiCalDateTimeOptional(event.getStartDate(), event.getStartTime()),
             event.getSubject());
       } else{
+        // TODO: check to make sure end date is after start data, if not, log warning
         vEvent = new VEvent(toiCalDateTimeOptional(event.getStartDate(), event.getStartTime()),
             toiCalDateTimeOptional(event.getEndDate(), event.getEndTime()), event.getSubject());
       }
