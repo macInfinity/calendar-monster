@@ -1,6 +1,8 @@
 package com.cmcllc.parse;
 
 import com.cmcllc.domain.CalendarEvent;
+import net.fortuna.ical4j.model.Dur;
+import net.fortuna.ical4j.model.component.VAlarm;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.*;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +45,7 @@ public class CalendarEventUtil {
         vEvent = new VEvent(toiCalDateTimeOptional(event.getStartDate(), event.getStartTime()),
             event.getSubject());
       } else{
+        // TODO: check to make sure end date is after start data, if not, log warning
         vEvent = new VEvent(toiCalDateTimeOptional(event.getStartDate(), event.getStartTime()),
             toiCalDateTimeOptional(event.getEndDate(), event.getEndTime()), event.getSubject());
       }
@@ -59,6 +62,19 @@ public class CalendarEventUtil {
       // only mark private if set as private
       if (event.isPrivateEvent()) {
         vEvent.getProperties().add(Clazz.PRIVATE);
+      }
+
+      // only add an alarm if it's defined
+      if (StringUtils.isNoneBlank(event.getAlarmDescription()) &&
+          (event.getAlarmDays() + event.getAlarmHours() + event.getAlarmMinutes() > 0)) {
+
+        Dur duratoin = new Dur(event.getAlarmDays(), event.getAlarmHours(),
+            event.getAlarmMinutes(), 0).negate();
+        VAlarm alarm = new VAlarm(duratoin);
+        alarm.getProperties().add(Action.DISPLAY);
+        alarm.getProperties().add(new Description(event.getAlarmDescription()));
+        vEvent.getAlarms().add(alarm);
+
       }
 
     } catch (Exception e) {

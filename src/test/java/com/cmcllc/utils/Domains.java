@@ -51,6 +51,18 @@ public class Domains {
     public CalendarEventBuilder setPrivateEvent(boolean privateEvent) {
       return setField("privateEvent", privateEvent);
     }
+    public CalendarEventBuilder setAlarmDescription(String alarmDescription) {
+      return setField("alarmDescription", alarmDescription);
+    }
+    public CalendarEventBuilder setAlarmDays(int alarmDays) {
+      return setField("alarmDays", alarmDays);
+    }
+    public CalendarEventBuilder setAlarmHours(int alarmHours) {
+      return setField("alarmHours", alarmHours);
+    }
+    public CalendarEventBuilder setAlarmMinutes(int alarmMinutes) {
+      return setField("alarmMinutes", alarmMinutes);
+    }
   }
 
   /**

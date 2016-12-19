@@ -30,6 +30,13 @@ Testing your endopint:
   * -k --insecure this allow curl to perform insecure SSL connections
   * curl -i -L http://localhost:8080/
 
+Consume Web Service from web page:
+
+* To consume a web service you cannot use straight HTML, you need JavaScript
+* Key to making jquery, ajax call work is `contentype: false`, when using the new FormData API
+* Now we have an HTML page that can call a web service and display the result, what's missing is
+  HTML markup to create an anchor instead of plain text
+*
 
 Coding Style: 
 
@@ -40,4 +47,8 @@ curl https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-sty
 
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
-
+* https://www.codeproject.com/Articles/14610/Calling-Web-Services-from-HTML-Pages-using-JavaScr
+// crappy post
+* http://stackoverflow.com/questions/26330910/javascript-learning-how-to-consume-restful-apis
+* http://stackoverflow.com/questions/5392344/sending-multipart-formdata-with-jquery-ajax
+* http://stackoverflow.com/questions/1557602/jquery-and-ajax-response-header

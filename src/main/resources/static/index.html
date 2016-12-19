@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Calendar Monster</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script
+            src="http://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>Welcome to Calendar Monster</h1>
+
+<p>
+<form method="post" action="/calendar"  enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td><label for="file-upload-input">Upload CSV File:</label></td>
+            <td><input id="file-upload-input" type="file" name="file" accept="*/*" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input id="file-upload-button" type="button" value="Upload File" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span id="file-upload-message"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div id="file-upload-link" style="display: none">
+                    Click <a href="replaceme">here</a> to  download your ics file.
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+</p>
+<script>
+    $('#file-upload-button').on("click", function() {
+       var formData = new FormData($('form')[0]);
+       $.ajax({
+           url: '/calendar',
+           type: 'POST',
+           data: formData,
+           contentType: false,
+           processData: false,
+           cache: false,
+           success: function(data, textStatus, request) {
+               $('#file-upload-message').text('File uploaded Successfully!');
+               $('#file-upload-link').css({
+                   'display':'' // remove the display attribute
+               });
+               var location = request.getResponseHeader('Location');
+               $('#file-upload-link a:first').attr('href', location);
+           },
+           error: function (request, textStatus, errorThrown) {
+               $('#file-upload-message').text('Error uploading file.');
+           }
+       });
+    });
+</script>
+</body>
+</html>
