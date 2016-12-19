@@ -1,19 +1,30 @@
 package com.cmcllc.service;
 
+import com.cmcllc.CalendarMonsterConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Store files for the app
@@ -25,7 +36,12 @@ public class FileSystemStorageService implements StorageService {
 
   private Path rootLocationPath;
 
-  public FileSystemStorageService() {
+  private CalendarMonsterConfig config;
+
+
+  @Autowired
+  public FileSystemStorageService(CalendarMonsterConfig config) {
+    this.config = config;
   }
 
   @PostConstruct
@@ -36,6 +52,37 @@ public class FileSystemStorageService implements StorageService {
       throw new StorageException("couldn't create root storage location.", e);
     }
     logger.info("rootLocationPath: {}", rootLocationPath.toString());
+  }
+
+  @PreDestroy
+  public void cleanup() {
+    if (config.isCleanupOnExitEnabled()) {
+      try {
+        Files.walk(rootLocationPath)
+            .sorted(Comparator.reverseOrder())
+            .map(Path::toFile)
+            .forEach(File::delete);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  @Scheduled(fixedDelayString = "${cm.cleanup.delay:600000}")
+  public void removeOldFiles() {
+    logger.info("cleaning up files...");
+    Instant deleteInstant = Instant.now().minus(config.getDelayToDeleteFiles(), ChronoUnit.MINUTES);
+    try {
+      Files.walk(rootLocationPath)
+          .sorted(Comparator.reverseOrder())
+          .filter(isCreatedBefore(deleteInstant))
+          .map(Path::toFile)
+          .filter(File::isFile)
+          .peek(logEntry("removing file: {}"))
+          .forEach(File::delete);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -94,4 +141,27 @@ public class FileSystemStorageService implements StorageService {
     }
     return rootLocationPath.resolve(fileName);
   }
+
+  public static Predicate<Path> isCreatedBefore(Instant instant) {
+    return p -> {
+      try {
+        BasicFileAttributes attr = Files.readAttributes(p, BasicFileAttributes.class);
+        logger.debug("Delete date is: {}, current file create date is: {}, delete? {}",
+            instant, attr.creationTime().toInstant(),
+            (!attr.isDirectory() && attr.creationTime().toInstant().isBefore(instant)));
+        return !attr.isDirectory() && attr.creationTime().toInstant().isBefore(instant);
+      } catch (Exception e) {
+        logger.warn("error checking file {}", p, e);
+      }
+      return false;
+    };
+  }
+
+  public static Consumer<File> logEntry(String message) {
+    return p -> {
+      logger.debug(message, p);
+    };
+  }
+
+
 }

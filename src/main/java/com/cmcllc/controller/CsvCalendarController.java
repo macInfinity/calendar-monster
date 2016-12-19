@@ -44,21 +44,13 @@ public class CsvCalendarController {
 
     Path csvFile = storageService.storeFile(file);
     Path icsFile = storageService.createTempFile(null, null);
-
-    // TODO: calendar service should not store a file, it should return a file that we can choose
-    // to store in the storage service. Otherwise we are exposing the internals of
-    // calendarParserService here, later in serveFile() we use the token to load the file from
-    // storageService, implying we know what this service is doing, bad idea. Poor SoC
     calendarParserService.createCalendarFile(csvFile.toAbsolutePath().toString(), icsFile);
 
     UriComponents uriComponents = uriComponentsBuilder
         .path("/calendar/ics/{name}")
         .buildAndExpand(icsFile.getFileName().toString());
 
-    HttpHeaders headers = new HttpHeaders();
-    headers.setLocation(uriComponents.toUri());
-
-    return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    return ResponseEntity.created(uriComponents.toUri()).build();
   }
 
   // http://stackoverflow.com/questions/12395115/spring-missing-the-extension-file

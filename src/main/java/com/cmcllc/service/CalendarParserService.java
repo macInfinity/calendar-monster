@@ -88,11 +88,10 @@ public class CalendarParserService {
   };
 
   /**
-   * Creates a temporary file containing the iCal data based on the CSV files passed into this
-   * method.
+   * Writes out the ics data to the file provided.
    *
    * @param csvFlie
-   * @return path to the temporary, ics file
+   * @return path to the File, where we will store the ics data
    * @throws IOException
    */
   public void createCalendarFile(String csvFlie, Path outputFile) throws IOException {
