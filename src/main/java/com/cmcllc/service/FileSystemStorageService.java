@@ -146,7 +146,7 @@ public class FileSystemStorageService implements StorageService {
     return p -> {
       try {
         BasicFileAttributes attr = Files.readAttributes(p, BasicFileAttributes.class);
-        logger.debug("Delete date is: {}, current file create date is: {}, delete? {}",
+        logger.trace("Delete date is: {}, current file create date is: {}, delete? {}",
             instant, attr.creationTime().toInstant(),
             (!attr.isDirectory() && attr.creationTime().toInstant().isBefore(instant)));
         return !attr.isDirectory() && attr.creationTime().toInstant().isBefore(instant);
@@ -159,7 +159,7 @@ public class FileSystemStorageService implements StorageService {
 
   public static Consumer<File> logEntry(String message) {
     return p -> {
-      logger.debug(message, p);
+      logger.trace(message, p);
     };
   }
 

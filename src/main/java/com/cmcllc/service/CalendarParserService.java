@@ -156,7 +156,7 @@ public class CalendarParserService {
       while ((calendarEvent = beanReader.read(CalendarEvent.class, headers, processors)) != null) {
         if (calendarEvent.isValid()) events.add(calendarEvent);
 
-        logger.debug("Line={} row={}, event={}", beanReader.getLineNumber(),
+        logger.trace("Line={} row={}, event={}", beanReader.getLineNumber(),
             beanReader.getRowNumber(), calendarEvent.getSubject());
       }
 
