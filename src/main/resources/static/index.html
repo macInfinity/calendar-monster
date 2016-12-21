@@ -1,63 +1,99 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Calendar Monster</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 25px;
+        }
+
+        body > div {
+            max-width: 6.5in;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Welcome to Calendar Monster</h1>
+
+    <p>
+    <form method="post" action="/calendar" enctype="multipart/form-data">
+        <!-- right way -->
+        <div class="input-group">
+            <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Browse&hellip;<input type="file" name="file" style="display: none;"
+                                             accept="text/csv">
+                    </span>
+            </label>
+            <input type="text" id="filename" class="form-control" readonly>
+        </div>
+        <span class="help-block">
+            Select a CSV file to be converted into an ics file.
+        </span>
+        <div class="input-group center">
+            <input id="file-upload-button" type="button" class="btn btn-primary"
+                   value="Upload File" />
+        </div>
+    </form>
+    </p>
     <script
             src="http://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
-</head>
-<body>
-<h1>Welcome to Calendar Monster</h1>
+    <script>
+        $(document).on('change', ':file', function () {
+            var input = $(this);
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            // Note: this is how a Java Programmer would set the value of a text field
+            // I believe a true JS programmer would use events, perhaps Angular
+            // has yet another preferred approach.
+            $('#filename').val(label);
+        });
 
-<p>
-<form method="post" action="/calendar"  enctype="multipart/form-data">
-    <table>
-        <tr>
-            <td><label for="file-upload-input">Upload CSV File:</label></td>
-            <td><input id="file-upload-input" type="file" name="file" accept="*/*" /></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input id="file-upload-button" type="button" value="Upload File" /></td>
-        </tr>
-        <tr>
-            <td colspan="2"><span id="file-upload-message"/></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div id="file-upload-link" style="display: none">
-                    Click <a href="replaceme">here</a> to  download your ics file.
-                </div>
-            </td>
-        </tr>
-    </table>
-</form>
-</p>
-<script>
-    $('#file-upload-button').on("click", function() {
-       var formData = new FormData($('form')[0]);
-       $.ajax({
-           url: '/calendar',
-           type: 'POST',
-           data: formData,
-           contentType: false,
-           processData: false,
-           cache: false,
-           success: function(data, textStatus, request) {
-               $('#file-upload-message').text('File uploaded Successfully!');
-               $('#file-upload-link').css({
-                   'display':'' // remove the display attribute
-               });
-               var location = request.getResponseHeader('Location');
-               $('#file-upload-link a:first').attr('href', location);
-           },
-           error: function (request, textStatus, errorThrown) {
-               $('#file-upload-message').text('Error uploading file.');
-           }
-       });
-    });
-</script>
+        $('#file-upload-button').on("click", function () {
+            var formData = new FormData($('form')[0]);
+            $.ajax({
+                url: '/calendar',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function (data, textStatus, request) {
+                    $('#file-upload-message').text('File uploaded Successfully!');
+                    $('#file-upload-link').slideDown();
+                    var location = request.getResponseHeader('Location');
+                    $('#file-upload-link a:first').attr('href', location);
+                },
+                error: function (request, textStatus, errorThrown) {
+                    var response = request.responseText;
+                    var obj = JSON.parse(response);
+                    $('#file-upload-message').text(obj.message);
+                }
+            });
+        });
+    </script>
+</div>
 </body>
 </html>
