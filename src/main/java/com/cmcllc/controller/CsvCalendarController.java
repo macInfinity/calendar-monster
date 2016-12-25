@@ -43,7 +43,7 @@ public class CsvCalendarController {
                                          UriComponentsBuilder uriComponentsBuilder) throws Exception {
 
     Path csvFile = storageService.storeFile(file);
-    Path icsFile = storageService.createTempFile(null, null);
+    Path icsFile = storageService.createTempFile(null, "ics");
     calendarParserService.createCalendarFile(csvFile.toAbsolutePath().toString(), icsFile);
 
     UriComponents uriComponents = uriComponentsBuilder

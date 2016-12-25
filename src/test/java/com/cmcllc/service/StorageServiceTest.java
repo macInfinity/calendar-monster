@@ -2,6 +2,7 @@ package com.cmcllc.service;
 
 import com.cmcllc.CalendarMonsterConfig;
 import mockit.Deencapsulation;
+import org.apache.commons.io.FilenameUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockMultipartFile;
@@ -36,6 +37,18 @@ public class StorageServiceTest {
     assertThat(result, notNullValue());
   }
 
+  @Test
+  public void createFile() {
+    Path result = storageService.createTempFile(null, null);
+    assertThat(FilenameUtils.getExtension(result.getFileName().toString()), is("tmp"));
+    Path result2 = storageService.createTempFile("prefix", null);
+    assertThat(FilenameUtils.getBaseName(result2.getFileName().toString()).startsWith("prefix"), is(true));
+    Path result3 = storageService.createTempFile(null, "suffix");
+    assertThat(FilenameUtils.getExtension(result3.getFileName().toString()), is("suffix"));
+    Path result4 = storageService.createTempFile("prefix", "suffix");
+    assertThat(FilenameUtils.getBaseName(result4.getFileName().toString()).startsWith("prefix"),is(true));
+    assertThat(FilenameUtils.getExtension(result4.getFileName().toString()), is("suffix"));
+  }
   @Test
   public void storeFileAndCleanup() throws IOException {
     Path roolLocation = Deencapsulation.getField(storageService, "rootLocationPath");

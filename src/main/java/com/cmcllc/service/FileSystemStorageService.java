@@ -95,7 +95,7 @@ public class FileSystemStorageService implements StorageService {
     Path target;
     try {
       if (file.isEmpty()) {
-        throw new StorageException(String.format("File {} was empty, nothing to process",
+        throw new StorageException(String.format("File '%s' was empty, nothing to process",
             file.getOriginalFilename()));
       }
       // random filename
@@ -131,11 +131,11 @@ public class FileSystemStorageService implements StorageService {
 
   public Path createTempFile(String prefix, String suffix) {
     prefix = StringUtils.stripToNull(prefix) == null ? "" : StringUtils.stripToEmpty(prefix);
-    suffix = StringUtils.stripToNull(suffix) == null ? ".tmp" : StringUtils.stripToEmpty(prefix);
+    suffix = StringUtils.stripToNull(suffix) == null ? "tmp" : StringUtils.stripToEmpty(suffix);
 
-    String fileName = String.format("%s%s%s", prefix, UUID.randomUUID().toString(), suffix);
 
-    // TODO: needs test
+    String fileName = String.format("%s%s.%s", prefix, UUID.randomUUID().toString(), suffix);
+
     if (rootLocationPath.getParent() == null) {
       throw new StorageException("Cannot create temp file, invalid prefix or suffix");
     }
