@@ -52,3 +52,5 @@ Links:
 * http://stackoverflow.com/questions/26330910/javascript-learning-how-to-consume-restful-apis
 * http://stackoverflow.com/questions/5392344/sending-multipart-formdata-with-jquery-ajax
 * http://stackoverflow.com/questions/1557602/jquery-and-ajax-response-header
+* http://stackoverflow.com/questions/18568736/how-to-hide-element-using-twitter-bootstrap-3-and-show-it-using-jquery
+

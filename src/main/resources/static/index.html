@@ -20,6 +20,9 @@
     <![endif]-->
 
     <style>
+        /*
+        default style for the page, makes everything centered
+          */
         body {
             display: flex;
             align-items: center;
@@ -27,9 +30,19 @@
             margin-top: 25px;
         }
 
+        /*
+        Makes sure the max width is 6.5 inches
+         */
         body > div {
             max-width: 6.5in;
         }
+
+        .margins {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+
     </style>
 </head>
 <body>
@@ -53,7 +66,22 @@
         </span>
         <div class="input-group center">
             <input id="file-upload-button" type="button" class="btn btn-primary"
-                   value="Upload File" />
+                   value="Process File" />
+            <!-- TODO: add form clear button -->
+        </div>
+        <div id="success-messages" class="hidden">
+            <div class="alert alert-success margins" role="alert">
+                <p>You file was converted Successfully!<!</p>
+                <!-- TODO: Change download link to xxx.ics -->
+                <p>Click <a href="replaceme">here</a> to download
+                your ics file.</p>
+            </div>
+        </div>
+        <div id="failure-messages" class="hidden">
+            <div class="alert alert-danger margins" role="alert">
+                <p>There was an error processing your file!</p>
+                <p>error msg</p>
+            </div>
         </div>
     </form>
     </p>
@@ -64,6 +92,7 @@
     <script>
         $(document).on('change', ':file', function () {
             var input = $(this);
+            // windows file name adjustment
             label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
             // Note: this is how a Java Programmer would set the value of a text field
             // I believe a true JS programmer would use events, perhaps Angular
@@ -81,12 +110,16 @@
                 processData: false,
                 cache: false,
                 success: function (data, textStatus, request) {
+                    $('#success-messages').removeClass('hidden');
+                    $('#failure-messages').addClass('hidden');
                     $('#file-upload-message').text('File uploaded Successfully!');
                     $('#file-upload-link').slideDown();
                     var location = request.getResponseHeader('Location');
-                    $('#file-upload-link a:first').attr('href', location);
+                    $('#success-messages a:first').attr('href', location);
                 },
                 error: function (request, textStatus, errorThrown) {
+                    $('#success-messages').addClass('hidden');
+                    $('#failure-messages').removeClass('hidden');
                     var response = request.responseText;
                     var obj = JSON.parse(response);
                     $('#file-upload-message').text(obj.message);
