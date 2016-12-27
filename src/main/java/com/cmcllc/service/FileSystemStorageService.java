@@ -70,7 +70,7 @@ public class FileSystemStorageService implements StorageService {
 
   @Scheduled(fixedDelayString = "${cm.cleanup.delay:600000}")
   public void removeOldFiles() {
-    logger.info("cleaning up files...");
+    logger.debug("cleaning up files...");
     Instant deleteInstant = Instant.now().minus(config.getDelayToDeleteFiles(), ChronoUnit.MINUTES);
     try {
       Files.walk(rootLocationPath)
@@ -101,7 +101,7 @@ public class FileSystemStorageService implements StorageService {
       // random filename
       target = rootLocationPath.resolve(UUID.randomUUID().toString());
       Files.copy(file.getInputStream(), target);
-      logger.info(String.format("Wrote input file: %s to %s", file.getOriginalFilename(),
+      logger.debug(String.format("Wrote input file: %s to %s", file.getOriginalFilename(),
           target.toString()));
     } catch (IOException e) {
       throw new StorageException("Error trying to store file: " + file.getOriginalFilename());

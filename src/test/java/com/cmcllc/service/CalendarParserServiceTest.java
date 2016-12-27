@@ -40,11 +40,13 @@ public class CalendarParserServiceTest {
   private static final String TESTER_CSV = "tester.csv";
   private static final String TESTER2_CSV = "tester2.csv";
   private static final String ALARM_CSV = "alarms.csv";
+  private static final String MAKI_CSV = "maki-columns.csv";
   private String path;
   private String pathAm;
   private String pathTester;
   private String pathTester2;
   private String pathAlarms;
+  private String pathMaki;
 
   private CalendarParserService calendarParserService = new CalendarParserService();
 
@@ -55,6 +57,7 @@ public class CalendarParserServiceTest {
     pathTester = getClass().getClassLoader().getResource(TESTER_CSV).getPath();
     pathTester2 = getClass().getClassLoader().getResource(TESTER2_CSV).getPath();
     pathAlarms = getClass().getClassLoader().getResource(ALARM_CSV).getPath();
+    pathMaki = getClass().getClassLoader().getResource(MAKI_CSV).getPath();
   }
 
   @Test
@@ -75,6 +78,10 @@ public class CalendarParserServiceTest {
   @Test
   public void parseCsvFileTester2() throws Exception {
     calendarParserService.parseCsvFile(pathTester2);
+  }
+  @Test
+  public void parseCsvFileMaki() throws Exception {
+    calendarParserService.parseCsvFile(pathMaki);
   }
 
   @Test

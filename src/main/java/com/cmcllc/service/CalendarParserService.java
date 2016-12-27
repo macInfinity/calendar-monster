@@ -87,6 +87,34 @@ public class CalendarParserService {
       "alarmMinutes"
   };
 
+  private CellProcessor[] maki_processors = {
+      new Optional(),             // Day
+      new Optional(),             // Duration
+      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Subject
+      new Optional(new ParseStringTrim(new Optional(new ParseLocalDate(
+          DateTimeFormatter.ofPattern("MM/dd/yyy"))))),                           // Start Date
+      new Optional(new ParseStringTrim(new Optional(new ParseLocalTimeMixed()))), // Start Time
+      new Optional(new ParseStringTrim(new Optional(new ParseLocalDate(
+          DateTimeFormatter.ofPattern("MM/dd/yyy"))))),                           // End Date
+      new Optional(new ParseStringTrim(new Optional(new ParseLocalTimeMixed()))), // End Time
+      new Optional(new ParseStringTrim(new Optional(new ParseBool()))),           // All Day Event
+      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Description
+      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Location
+      new Optional(new ParseStringTrim(new Optional(new ParseBool()))),            // Private
+      // Additional CSV support unique to calendar-monster
+      new Optional(new ParseStringTrim(new Optional(new NotNull()))),           // Alarm Description
+      new Optional(new ParseStringTrim(new Optional(new ParseInt()))),          // Alarm Days
+      new Optional(new ParseStringTrim(new Optional(new ParseInt()))),          // Alarm Hours
+      new Optional(new ParseStringTrim(new Optional(new ParseInt())))           // Alarm Minutes
+  };
+
+  private String[] maki_headers = {
+      "day","duration","subject", "startDate", "startTime", "endDate", "endTime", "allDayEvent",
+      "description", "location", "privateEvent","alarmDescription","alarmDays", "alarmHours",
+      "alarmMinutes"
+  };
+
+
   /**
    * Writes out the ics data to the file provided.
    *
@@ -149,6 +177,9 @@ public class CalendarParserService {
       if (csvHeaders.length == 13) {
         headers = cm_headers;
         processors = cm_processors;
+      } else if (csvHeaders.length == 15) {
+        headers = maki_headers;
+        processors = maki_processors;
       }
 
       List<CalendarEvent> events = new ArrayList<>();
