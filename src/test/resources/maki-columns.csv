@@ -1,0 +1,12 @@
+Day,Duration,Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private,Alarm Description,Alarm Days,Alarm Hours,Alarm Minutes
+Monday,1,Oceanside ’17 - Week 1,12/12/2016,,,,TRUE,"Oceanside Wk 1 − 7h 30m. Goals Primary: Sub 6 hour finish time, Stretch : 39 min Swim, or better, Overall: Finish Oceanside health and happy. Swim count: 2 Bike count: 3 Run count: 2 Strength: 2",,FALSE,"Great week ahead, you’ve got this!!",,4,
+Monday,,Training Day Off,12/12/2016,,,,FALSE,,,FALSE,,,,
+Tuesday,1h,Swim,12/13/2016,6:30,12/13/2016,7:30,FALSE,Swim Competitive #1,LA Fitness - Beaverton,FALSE,,,,
+Tuesday,45m,Run,12/13/2016,16:15,12/13/2016,17:00,FALSE,Easy Eight then Run Z2,LA Fitness,FALSE,Go get’em today!,,1,
+Wednesday,45m,Brick Bike,12/14/2016,6:15,12/14/2016,7:00,FALSE,"Easy Eight then Bike 30m Z2, Run 15m Z2",Home,FALSE,Best day of the week!!,,,15
+Wednesday,30m,Dennis,12/14/2016,10:30,12/14/2016,11:00,FALSE,Core Strength,Evolve Fitness,FALSE,Strength is the key,,,30
+Thursday,1h,Swim,12/15/2016,6:30,12/15/2016,7:30,FALSE,Swim Competitive #2,LA Fitness - Beaverton,FALSE,,,,
+Thursday,45m,Bike,12/15/2016,16:15,12/15/2016,17:00,FALSE,Easy Eight then Bike 45m Z2,Home,FALSE,Hit the trainer.,,,30
+Friday,30m,Dennis,12/16/2016,10:30,12/16/2016,11:00,FALSE,Core Strength,Evolve Fitness,FALSE,Strength makes you fast,,,30
+Saturday,1h 15m,Long Bike,12/17/2016,8:30,12/17/2016,9:45,FALSE,Easy Eight then Long Bike 1h 15m Z2,Home,FALSE,"Yeah, it’s your long bike day!",,,30
+Sunday,1h,Long Run,12/18/2016,8:30,,9:30,FALSE,Easy Eight then Long Run 1h Z1 - Z2,Home,FALSE,"Fun day, Sunday.",,,30
