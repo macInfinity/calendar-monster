@@ -11,6 +11,7 @@ import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -62,58 +63,40 @@ public class CalendarParserService {
   };
 
 
-  private CellProcessor[] cm_processors = {
-      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Subject
-      new Optional(new ParseStringTrim(new Optional(new ParseLocalDate(
-          DateTimeFormatter.ofPattern("MM/dd/yyy"))))),                           // Start Date
-      new Optional(new ParseStringTrim(new Optional(new ParseLocalTimeMixed()))), // Start Time
-      new Optional(new ParseStringTrim(new Optional(new ParseLocalDate(
-          DateTimeFormatter.ofPattern("MM/dd/yyy"))))),                           // End Date
-      new Optional(new ParseStringTrim(new Optional(new ParseLocalTimeMixed()))), // End Time
-      new Optional(new ParseStringTrim(new Optional(new ParseBool()))),           // All Day Event
-      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Description
-      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Location
-      new Optional(new ParseStringTrim(new Optional(new ParseBool()))),            // Private
+  // Calendar Monster addons, support for Alarms
+  private CellProcessor[] cm_processors;
+  private String[] cm_headers;
+  private CellProcessor[] cm_processors_addons = {
       // Additional CSV support unique to calendar-monster
       new Optional(new ParseStringTrim(new Optional(new NotNull()))),           // Alarm Description
       new Optional(new ParseStringTrim(new Optional(new ParseInt()))),          // Alarm Days
       new Optional(new ParseStringTrim(new Optional(new ParseInt()))),          // Alarm Hours
       new Optional(new ParseStringTrim(new Optional(new ParseInt())))           // Alarm Minutes
   };
-
-  private String[] cm_headers = {
-      "subject", "startDate", "startTime", "endDate", "endTime", "allDayEvent",
-      "description", "location", "privateEvent","alarmDescription","alarmDays", "alarmHours",
+  private String[] cm_headers_addon = {
+      "alarmDescription","alarmDays", "alarmHours",
       "alarmMinutes"
   };
 
-  private CellProcessor[] maki_processors = {
+  // My personal format, makes creating the spreadsheet easier
+  private CellProcessor[] maki_processors;
+  private String[] maki_headers;
+  private CellProcessor[] maki_processors_addons = {
       new Optional(),             // Day
       new Optional(),             // Duration
-      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Subject
-      new Optional(new ParseStringTrim(new Optional(new ParseLocalDate(
-          DateTimeFormatter.ofPattern("MM/dd/yyy"))))),                           // Start Date
-      new Optional(new ParseStringTrim(new Optional(new ParseLocalTimeMixed()))), // Start Time
-      new Optional(new ParseStringTrim(new Optional(new ParseLocalDate(
-          DateTimeFormatter.ofPattern("MM/dd/yyy"))))),                           // End Date
-      new Optional(new ParseStringTrim(new Optional(new ParseLocalTimeMixed()))), // End Time
-      new Optional(new ParseStringTrim(new Optional(new ParseBool()))),           // All Day Event
-      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Description
-      new Optional(new ParseStringTrim(new Optional(new NotNull()))),             // Location
-      new Optional(new ParseStringTrim(new Optional(new ParseBool()))),            // Private
-      // Additional CSV support unique to calendar-monster
-      new Optional(new ParseStringTrim(new Optional(new NotNull()))),           // Alarm Description
-      new Optional(new ParseStringTrim(new Optional(new ParseInt()))),          // Alarm Days
-      new Optional(new ParseStringTrim(new Optional(new ParseInt()))),          // Alarm Hours
-      new Optional(new ParseStringTrim(new Optional(new ParseInt())))           // Alarm Minutes
+  };
+  private String[] maki_headers_addons = {
+      "day","duration"
   };
 
-  private String[] maki_headers = {
-      "day","duration","subject", "startDate", "startTime", "endDate", "endTime", "allDayEvent",
-      "description", "location", "privateEvent","alarmDescription","alarmDays", "alarmHours",
-      "alarmMinutes"
-  };
 
+  public CalendarParserService() {
+    cm_processors = ArrayUtils.addAll(default_processors, cm_processors_addons);
+    cm_headers = ArrayUtils.addAll(default_headers, cm_headers_addon);
+
+    maki_processors = ArrayUtils.addAll(maki_processors_addons, cm_processors);
+    maki_headers = ArrayUtils.addAll(maki_headers_addons, cm_headers);
+  }
 
   /**
    * Writes out the ics data to the file provided.
