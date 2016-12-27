@@ -114,7 +114,6 @@ public class FileSystemStorageService implements StorageService {
     return rootLocationPath.resolve(filename);
   }
 
-  // TODO: needs some tests
   public Resource loadFileAsResource(String filename) {
     try {
       Path file = loadFile(filename);

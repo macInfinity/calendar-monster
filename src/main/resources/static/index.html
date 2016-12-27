@@ -37,9 +37,13 @@
             max-width: 6.5in;
         }
 
-        .margins {
+        .alert-margins {
             margin-top: 10px;
             margin-bottom: 10px;
+        }
+
+        .button-margins {
+            margin-left: 10px;
         }
 
 
@@ -67,17 +71,17 @@
         <div class="input-group center">
             <input id="file-upload-button" type="button" class="btn btn-primary"
                    value="Process File" />
-            <!-- TODO: add form clear button -->
+            <input class="btn button-margins" type="reset" value="Reset">
         </div>
         <div id="success-messages" class="hidden">
-            <div class="alert alert-success margins" role="alert">
+            <div class="alert alert-success alert-margins" role="alert">
                 <p>You file was converted Successfully!<!</p>
                 <p>Click <a href="replaceme">here</a> to download
                 your ics file.</p>
             </div>
         </div>
         <div id="failure-messages" class="hidden">
-            <div class="alert alert-danger margins" role="alert">
+            <div class="alert alert-danger alert-margins" role="alert">
                 <p>There was an error processing your file!</p>
                 <p id="error-message">error msg</p>
             </div>
