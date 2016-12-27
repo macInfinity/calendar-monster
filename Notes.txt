@@ -54,4 +54,8 @@ Links:
 * http://stackoverflow.com/questions/1557602/jquery-and-ajax-response-header
 * http://stackoverflow.com/questions/18568736/how-to-hide-element-using-twitter-bootstrap-3-and-show-it-using-jquery
 * http://stackoverflow.com/questions/12147818/twitter-bootstrap-reset-button
+* https://docs.travis-ci.com/user/travis-lint/
+* https://blog.travis-ci.com/2013-01-14-new-client/
+* http://stackoverflow.com/questions/33267878/example-of-travis-ci-yml-file-for-java
+
 
