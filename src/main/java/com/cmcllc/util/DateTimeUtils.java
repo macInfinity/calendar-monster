@@ -5,7 +5,9 @@ import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.DateTime;
 
 import java.text.ParseException;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.format.DateTimeFormatter.BASIC_ISO_DATE;
@@ -21,7 +23,8 @@ public class DateTimeUtils {
    * 225559 - 10:55:59 PM
    * 011513 - 1:11:13 AM
    */
-  public static final DateTimeFormatter BASIC_TIME = DateTimeFormatter.ofPattern("Hms");
+  public static final DateTimeFormatter BASIC_TIME = DateTimeFormatter.ofPattern("HHmmss");
+//  public static final DateTimeFormatter BASIC_TIME = DateTimeFormatter.ofPattern("Hms");
 
   static String formatLocalDateTime(LocalDateTime localDateTime) {
     return String.format("%sT%s", BASIC_ISO_DATE.format(localDateTime),
@@ -30,7 +33,8 @@ public class DateTimeUtils {
 
   public static DateTime toiCalDate(LocalDateTime localDateTime) throws ParseException {
     Preconditions.checkNotNull(localDateTime, "localDateTime cannot be null");
-//    java.util.Date date = Date.from(localDateTime.atZone(ZoneOffset.systemDefault()).toInstant());
+
+//    return new DateTime(formatLocalDateTime(localDateTime),"",false);
     return new DateTime(formatLocalDateTime(localDateTime));
   }
   public static Date toiCalDate(LocalDate localDate) throws ParseException {
