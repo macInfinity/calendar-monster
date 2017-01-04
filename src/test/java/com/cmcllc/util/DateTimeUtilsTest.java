@@ -50,12 +50,54 @@ public class DateTimeUtilsTest {
   }
 
   @Test
-  public void testZeroHour() throws ParseException {
-//    LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2016, 12, 4),
-//        LocalTime.of(13, 15, 0,0));
-    LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2017, 1, 3),
-        LocalTime.of(6, 0, 0, 0));
+  public void testZeroHour_success() throws ParseException {
+    LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2016, 12, 4),
+        LocalTime.of(13, 15, 0,0));
     DateTimeUtils.toiCalDate(dateTime);
-//    DateTimeUtils.toiCalDate(localDateTime);
   }
-}
+  @Test
+  public void testZeroHour_error() throws ParseException {
+    LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2016, 12, 4),
+        LocalTime.of(13, 1, 0,0));
+    DateTimeUtils.toiCalDate(dateTime);
+  }
+
+  @Test
+  public void testZeroHour_sweetSpot() throws Exception {
+    // looking for exact spot where old time format would fail
+    // this test used 'i' for hour and minute, when either was a single digit
+    // it used to fail
+    boolean failure = false;
+    for (int i = 0; i < 24; i++) {
+      try {
+        LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2016, 12, 4),
+            LocalTime.of(i, i, 0,0));
+        DateTimeUtils.toiCalDate(dateTime);
+      } catch (Throwable t) {
+        System.out.println(t);
+        failure = true;
+      }
+    }
+    if (failure) throw new Exception("error during test");
+  }
+
+  @Test
+  public void testZeroHour_sweetSpot2() throws Exception {
+    // looking for exact spot where old time format would fail
+    // this test used 'i' minute ONLY, when minute a single digit
+    // it used to fail
+    boolean failure = false;
+    for (int i = 0; i < 24; i++) {
+      try {
+        LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2016, 12, 4),
+            LocalTime.of(13, i, 0,0));
+        DateTimeUtils.toiCalDate(dateTime);
+      } catch (Throwable t) {
+        failure = true;
+        System.out.println(t);
+      }
+    }
+    if (failure) throw new Exception("error during test");
+  }
+
+  }
