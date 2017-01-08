@@ -1,5 +1,6 @@
 package com.cmcllc;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,18 +10,29 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CalendarMonsterConfig {
 
-  @Value("${cm.cleanup.onexit:false}")
+  /**
+   * when calendar-monster is terminated, should it remove all temporary files?
+   */
+  @Value("${app.cleanup.onexit:false}")
   private boolean cleanupOnExitEnabled;
 
   /**
-   * minutes to wait before removing old files. Default is 20 minutes.
+   * how old, in minutes, should a file be before it will be deleted?
    */
-  @Value("${cm.cleanup.deletetime:1}")
+  @Value("${app.cleanup.deletetime:1}")
   private int delayToDeleteFiles;
 
-  @Value("${cm.cleanup.delay:600000}")
+  /**
+   * milliseconds to wait before removing old files. Default is 10 minutes.
+   */
+  @Value("${app.cleanup.delay:600000}")
   private int fixedDelayString;
 
+  /**
+   * the sha-1 value when the application was compiled
+   */
+  @Value("${app.sha-1}")
+  private String appSha1;
 
   public CalendarMonsterConfig() {}
 
@@ -43,5 +55,21 @@ public class CalendarMonsterConfig {
 
   public void setDelayToDeleteFiles(int delayToDeleteFiles) {
     this.delayToDeleteFiles = delayToDeleteFiles;
+  }
+
+  public String getAppSha1() {
+    return appSha1;
+  }
+
+  public void setAppSha1(String appSha1) {
+    this.appSha1 = appSha1;
+  }
+
+  public String getShortAppSha1() {
+    if (StringUtils.isEmpty(appSha1) || appSha1.length() < 7) {
+      return "";
+    }
+    // return the first 7 characters
+    return appSha1.substring(0,6);
   }
 }

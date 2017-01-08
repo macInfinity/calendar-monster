@@ -6,6 +6,9 @@
 spring:
   profiles:
     active: dev
+app:
+  sha-1: @buildNumber@
+
 ---
 spring:
   profiles: dev
@@ -13,6 +16,11 @@ logging:
   level:
     org.springframework.web: debug
     com.cmcllc: trace
+app:
+  cleanup:
+    delay: 60000
+    deletetime: 4
+    onexit: true
 
 ---
 # this section is good when interacting with Spring classes/services
@@ -30,3 +38,8 @@ logging:
   level:
     root: info
     com.cmcllc: warn
+app:
+  cleanup:
+    onexit: true
+    deletetime: 2
+    delay: 900000
