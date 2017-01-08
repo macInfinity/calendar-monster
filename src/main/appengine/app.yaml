@@ -18,6 +18,6 @@ handlers:
 manual_scaling:
   instances: 1
 
-env_variables: #Logging options
+env_variables:    # Logging options
   JAVA_OPTS: >-
-  -Dspring.profiles.active=prod
+    -Dspring.profiles.active=prod

@@ -54,6 +54,15 @@ are mocking many of your dependencies for a unit tests, you will also need the n
  of these files, why have both? Just use `logback.xml` and skip the spring version (if you don't
  need Spring to provide additional help with logging). Here is a good ref for yaml configuration
  in spring: https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html
+ When using `yaml` files, spacing is everything. This failed (note how the `-` lines up with
+ JAVA_OPTS, that's not okay):
+
+  JAVA_OPTS: >-
+  -Dspring.profiles.active=prod
+
+This worked:
+  JAVA_OPTS: >-
+    -Dspring.profiles.active=prod
 
 
 
