@@ -65,6 +65,10 @@ This worked:
     -Dspring.profiles.active=prod
 
 
+Build Status
+Adding a build status badge to my README.md page, here's hte MD for the badge
+[![Build Status](https://travis-ci.org/macInfinity/calendar-monster.svg?branch=master)](https://travis-ci.org/macInfinity/calendar-monster)
+Page from TravisCI that explained it: https://docs.travis-ci.com/user/status-images/
 
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
