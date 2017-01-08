@@ -1,4 +1,32 @@
+# Yaml file reference: http://www.deepzeafish.xyz/yaml-properties-spring-boot.html
+#
+#
+#
+
 spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles: dev
 logging:
   level:
-    com.cmcllc: TRACE
+    org.springframework.web: debug
+    com.cmcllc: trace
+
+---
+# this section is good when interacting with Spring classes/services
+# for POJO testing, you will need a logback.xml file
+spring:
+  profiles: test
+logging:
+  level:
+    com.cmcllc: trace
+
+---
+spring:
+  profiles: prod
+logging:
+  level:
+    root: info
+    com.cmcllc: warn
