@@ -8,7 +8,7 @@ import org.junit.Test;
  * Created by chrismaki on 1/8/17.
  */
 public class CalendarMonsterConfigTest {
-  CalendarMonsterConfig config;
+  private CalendarMonsterConfig config;
 
   @Before
   public void setup() {
@@ -16,18 +16,18 @@ public class CalendarMonsterConfigTest {
   }
 
   @Test
-  public void getShortAppSha1_noValue() throws Exception {
+  public void getShortAppSha1_noValue()  {
     config.getShortAppSha1();
   }
 
   @Test
-  public void getShortAppSha1_jacked() throws Exception {
+  public void getShortAppSha1_jacked()  {
     Deencapsulation.setField(config, "appSha1", "1234");
     config.getShortAppSha1();
   }
 
   @Test
-  public void getShortAppSha1() throws Exception {
+  public void getShortAppSha1()  {
     Deencapsulation.setField(config, "appSha1", "506af8698a5162d380192c9e722a721c064d7d37w");
     config.getShortAppSha1();
   }
