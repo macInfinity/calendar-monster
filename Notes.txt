@@ -70,6 +70,29 @@ Adding a build status badge to my README.md page, here's hte MD for the badge
 [![Build Status](https://travis-ci.org/macInfinity/calendar-monster.svg?branch=master)](https://travis-ci.org/macInfinity/calendar-monster)
 Page from TravisCI that explained it: https://docs.travis-ci.com/user/status-images/
 
+Build number
+Adding `sha1` to the webpage so I know what version is out there. Using this post to get the
+build number: https://blog.jayway.com/2012/04/07/continuous-deployment-versioning-and-git/
+
+App Config, yaml v. properties
+Since I like to use the same file for configuration, I tend to use the approach that has the
+least draw backs, in the case of `yaml` flies, Spring provides some great support BUT you cannot
+use a `yaml` file for a `@PropertySource` annotation. If that's a requirement, then I'd suggest
+you only use `properties` files.
+https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-yaml-shortcomings
+Working through the filtering resources, you need to use `@@` instead of `${}`, here's a SO on it:
+http://stackoverflow.com/questions/36501017/maven-resource-filtering-not-working-because-of-spring-boot-dependency
+here's the actual code:
+https://github.com/spring-projects/spring-boot/blob/master/spring-boot-starters/spring-boot-starter-parent/pom.xml#L21
+So to get this to work, spring boot actually calls out `application*.yml` so if your file ends
+with `.yaml` you are out of luck. Okay, fixed and now my yaml file is filtered. Next issue is
+IntelliJ not filtering my resources correctly. I'm guessing it's because the buildnumber plugin
+isn't being run, but I'd like it to be run too....
+This post helped: https://intellij-support.jetbrains.com/hc/en-us/community/posts/206883505-Intellij-make-build-maven-resources-filtering
+Looks like you need to tweak the "Run Configuration" in IntelliJ, I don't like this as it
+requires special setup for your app but it's what I've got for now. That did it, it all works as
+expected now.
+
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
 * https://www.codeproject.com/Articles/14610/Calling-Web-Services-from-HTML-Pages-using-JavaScr
@@ -84,5 +107,5 @@ Links:
 * http://stackoverflow.com/questions/33267878/example-of-travis-ci-yml-file-for-java
 * http://stackoverflow.com/questions/29429073/spring-boot-logback-and-logging-config-property
 * https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html
-
-
+* https://blog.jayway.com/2012/04/07/continuous-deployment-versioning-and-git/
+* https://intellij-support.jetbrains.com/hc/en-us/community/posts/206883505-Intellij-make-build-maven-resources-filtering

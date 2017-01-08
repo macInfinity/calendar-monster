@@ -68,7 +68,7 @@ public class FileSystemStorageService implements StorageService {
     }
   }
 
-  @Scheduled(fixedDelayString = "${cm.cleanup.delay:600000}")
+  @Scheduled(fixedDelayString = "${app.cleanup.delay:600000}")
   public void removeOldFiles() {
     logger.debug("cleaning up files...");
     Instant deleteInstant = Instant.now().minus(config.getDelayToDeleteFiles(), ChronoUnit.MINUTES);
