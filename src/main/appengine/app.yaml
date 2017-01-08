@@ -1,3 +1,9 @@
+# calendar-monster Google App Engine Configuration
+#
+# Ref: https://cloud.google.com/appengine/docs/flexible/java/configuring-your-app-with-app-yaml
+#      http://docs.ansible.com/ansible/YAMLSyntax.html
+#
+
 runtime: java
 env: flex
 
@@ -12,3 +18,6 @@ handlers:
 manual_scaling:
   instances: 1
 
+env_variables: #Logging options
+  JAVA_OPTS: >-
+  -Dspring.profiles.active=prod
