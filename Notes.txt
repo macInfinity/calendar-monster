@@ -146,6 +146,12 @@ now there is no example showing what goes with `keyfile:` so I'm assuming I got 
 So as I expected, this line was wrong: `-out ~\/Downloads/calendar-monster-secret.json` I'm not
 sure why that was added to the yml file since you should not commit that file to your repo. Back
 to the docs. I just needed to change the path after `-out`, DOH!
+This example is key, the Travis CI docs mentioned the exmaple project, I just missed it:
+https://github.com/GoogleCloudPlatform/continuous-deployment-demo/blob/appengine_travis_deploy/.travis.yml
+So Travis CI uses it's own approach to deploying to GAE and the GAE maven plugin which will find
+the `app.yaml` file under src/main/resources/app.yaml is not found by Travis CI, so now I've got
+two version of the file, just for now, until I get it all working together OR travis CI using
+Maven for the deploy (which I'm guessing will not be possible).
 
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
