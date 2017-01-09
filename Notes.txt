@@ -93,6 +93,16 @@ Looks like you need to tweak the "Run Configuration" in IntelliJ, I don't like t
 requires special setup for your app but it's what I've got for now. That did it, it all works as
 expected now.
 
+Sha1
+Trying to create a simple `get` endpoint to return the short SHA1 for the project. Trying to
+return a very basic json model, using some examples to get it working. To get the correct syntax
+for the ImmutableMap Builder, check this out:
+http://stackoverflow.com/questions/7345241/builder-for-hashmap
+To get the correct JSON result, we just need to make a map and add that to the ResponseEntity.ok
+() method, Spring turns the map into a JSON response!!!
+
+
+
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
 * https://www.codeproject.com/Articles/14610/Calling-Web-Services-from-HTML-Pages-using-JavaScr
@@ -109,3 +119,4 @@ Links:
 * https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html
 * https://blog.jayway.com/2012/04/07/continuous-deployment-versioning-and-git/
 * https://intellij-support.jetbrains.com/hc/en-us/community/posts/206883505-Intellij-make-build-maven-resources-filtering
+* http://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/request-response-entity/
