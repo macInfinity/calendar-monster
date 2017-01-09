@@ -143,7 +143,9 @@ before_install:
   -in calendar-monster-secret.json.enc -out ~\/Downloads/calendar-monster-secret.json
   -d
 now there is no example showing what goes with `keyfile:` so I'm assuming I got it right...
-
+So as I expected, this line was wrong: `-out ~\/Downloads/calendar-monster-secret.json` I'm not
+sure why that was added to the yml file since you should not commit that file to your repo. Back
+to the docs. I just needed to change the path after `-out`, DOH!
 
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
