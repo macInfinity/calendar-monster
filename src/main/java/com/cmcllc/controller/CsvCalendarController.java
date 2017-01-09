@@ -24,7 +24,7 @@ import java.nio.file.Path;
 @EnableAutoConfiguration
 @RequestMapping("/calendar")
 public class CsvCalendarController {
-  private static final Logger logger = LoggerFactory.getLogger(CalendarMonsterApplication.class);
+  private static final Logger logger = LoggerFactory.getLogger(CsvCalendarController.class);
 
   private StorageService storageService;
 

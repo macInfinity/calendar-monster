@@ -31,7 +31,7 @@ public class CalendarMonsterConfig {
   /**
    * the sha-1 value when the application was compiled
    */
-  @Value("${app.sha-1}")
+  @Value("${app.sha-1:1234567}")
   private String appSha1;
 
   public CalendarMonsterConfig() {}
