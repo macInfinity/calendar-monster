@@ -33,7 +33,7 @@
         /*
         Makes sure the max width is 6.5 inches
          */
-        body > div {
+        .main-body {
             max-width: 6.5in;
         }
 
@@ -46,11 +46,31 @@
             margin-left: 10px;
         }
 
+        /* Sticky footer styles
+-------------------------------------------------- */
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            background-color: #f5f5f5;
+            padding: 15px;
+        }
+
 
     </style>
 </head>
 <body>
-<div>
+<div class="main-body">
     <h1>Welcome to Calendar Monster</h1>
 
     <p>
@@ -88,48 +108,69 @@
         </div>
     </form>
     </p>
-    <script
-            src="http://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous"></script>
-    <script>
-        $(document).on('change', ':file', function () {
-            var input = $(this);
-            // windows file name adjustment
-            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-            // Note: this is how a Java Programmer would set the value of a text field
-            // I believe a true JS programmer would use events, perhaps Angular
-            // has yet another preferred approach.
-            $('#filename').val(label);
-        });
-
-        $('#file-upload-button').on("click", function () {
-            var formData = new FormData($('form')[0]);
-            $.ajax({
-                url: '/calendar',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (data, textStatus, request) {
-                    $('#success-messages').removeClass('hidden');
-                    $('#failure-messages').addClass('hidden');
-                    $('#file-upload-message').text('File uploaded Successfully!');
-                    $('#file-upload-link').slideDown();
-                    var location = request.getResponseHeader('Location');
-                    $('#success-messages a:first').attr('href', location);
-                },
-                error: function (request, textStatus, errorThrown) {
-                    $('#success-messages').addClass('hidden');
-                    $('#failure-messages').removeClass('hidden');
-                    var response = request.responseText;
-                    var obj = JSON.parse(response);
-                    $('#error-message').text(obj.message);
-                }
-            });
-        });
-    </script>
 </div>
+<div class="footer">
+    <div class="row">
+        <div class="col-md-6 text-left">
+            <span class="sha1"></span>
+        </div>
+        <div class="col-md-6 text-right">
+            <a href="https://github.com/macInfinity/calendar-monster">Source code @ GitHub</a>
+        </div>
+    </div>
+    <!--<span class="text-muted text-left">this is left</span><span class="text-muted text-right">-->
+    <!--this is right</span>-->
+</div>
+<script
+        src="http://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+           url: '/sha1'
+        }).then(function(data) {
+            $('.sha1').append(data.sha1)
+        });
+    });
+
+    $(document).on('change', ':file', function () {
+        var input = $(this);
+        // windows file name adjustment
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        // Note: this is how a Java Programmer would set the value of a text field
+        // I believe a true JS programmer would use events, perhaps Angular
+        // has yet another preferred approach.
+        $('#filename').val(label);
+    });
+
+    $('#file-upload-button').on("click", function () {
+        var formData = new FormData($('form')[0]);
+        $.ajax({
+            url: '/calendar',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (data, textStatus, request) {
+                $('#success-messages').removeClass('hidden');
+                $('#failure-messages').addClass('hidden');
+                $('#file-upload-message').text('File uploaded Successfully!');
+                $('#file-upload-link').slideDown();
+                var location = request.getResponseHeader('Location');
+                $('#success-messages a:first').attr('href', location);
+            },
+            error: function (request, textStatus, errorThrown) {
+                $('#success-messages').addClass('hidden');
+                $('#failure-messages').removeClass('hidden');
+                var response = request.responseText;
+                var obj = JSON.parse(response);
+                $('#error-message').text(obj.message);
+            }
+        });
+    });
+</script>
 </body>
 </html>

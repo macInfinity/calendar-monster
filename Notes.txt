@@ -101,6 +101,21 @@ http://stackoverflow.com/questions/7345241/builder-for-hashmap
 To get the correct JSON result, we just need to make a map and add that to the ResponseEntity.ok
 () method, Spring turns the map into a JSON response!!!
 
+Stick footer
+To get a banner at the bottom of the page, we need something called a stick footer, here is a SO
+post about it: http://stackoverflow.com/questions/21324395/bootstrap-3-flush-footer-to-bottom-not-fixed
+The post suggests that we look at Bootstrap 3 for the solution, http://getbootstrap.com/examples/sticky-footer-navbar/
+it turns out that T had thrown in a `body > div {max-width: 6.5in;}` that put the entire body in
+a 6.5" space, so I removed the `body > div` and replaced it with a CSS class, used that class in
+the top level `div` so most of the document is in the middle. Then I had to refresh my memory on
+CSS selectors, so here's the ref: http://www.w3schools.com/cssref/css_selectors.asp. With the CSS
+ setup, I needed to figure out the JavaScript, I could have used Maven to filter the value into
+ the index.html page BUT I didn't want to expose this or future pages to Maven filtering so ajax
+ it would be. This page was very helpful: https://spring.io/guides/gs/consuming-rest-jquery/ as
+ was this page: http://stackoverflow.com/questions/23059741/jquery-ajax-json-result-to-text-input-value
+What I'm not comfortable with is this line: `$('.sha1').append(data.sha1)` I get we need to
+update the data in the DOM with this value, but I'm not sure what the other appropriate `append`
+methods are OR how to find all the appropriate methods.
 
 
 Links:
@@ -120,3 +135,5 @@ Links:
 * https://blog.jayway.com/2012/04/07/continuous-deployment-versioning-and-git/
 * https://intellij-support.jetbrains.com/hc/en-us/community/posts/206883505-Intellij-make-build-maven-resources-filtering
 * http://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/request-response-entity/
+* http://stackoverflow.com/questions/21324395/bootstrap-3-flush-footer-to-bottom-not-fixed
+* http://www.w3schools.com/cssref/css_selectors.asp
