@@ -158,7 +158,8 @@ the `Admin API` so that's good. From this bug report: https://github.com/travis-
 So it looks like we can just create our own GAE install in Travis-CI, for some reason I was
 thinking we didn't need to do this, anyway, I think this file will be helpful to get things
 working: https://github.com/GoogleCloudPlatform/continuous-deployment-demo/blob/master/.travis.yml
-After looking at the GAE Travis example I'm going to try installing the `java` component in Travis.
+After looking at the GAE Travis example I'm going to try installing the `java` component in
+Travis. So this post
 
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
@@ -181,3 +182,4 @@ Links:
 * http://www.w3schools.com/cssref/css_selectors.asp
 * https://github.com/travis-ci/travis-ci/issues/5350
 * https://github.com/GoogleCloudPlatform/continuous-deployment-demo/blob/master/.travis.yml
+* https://github.com/cotsog/travis_ci_prod_trusty/blob/204e3a09d33ed5412ff0f03b2192106dfff00c69/.travis.yml

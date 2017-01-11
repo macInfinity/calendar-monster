@@ -3,6 +3,14 @@ jdk:
   - oraclejdk8
 sudo: false
 script: mvn clean verify
+env:
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+before_install:
+  - gcloud version
+  - gcloud components update app-engine-java || true
+  - curl https://sdk.cloud.google.com | bash
+  - bash -l ./gcloud.sh version
+  - bash -l ./gcloud.sh components update app-engine-java
 deploy:
   provider: gae
   keyfile: calendar-monster-secret.json
@@ -10,7 +18,6 @@ deploy:
   skip_cleanup: true
   config: src/main/appengine/app.yaml
   verbosity: info
-#- gcloud components install app-engine-java
 before_install:
 - openssl aes-256-cbc -K $encrypted_05278cc033a1_key -iv $encrypted_05278cc033a1_iv
   -in calendar-monster-secret.json.enc -out calendar-monster-secret.json
