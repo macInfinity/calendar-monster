@@ -8,6 +8,8 @@ deploy:
   keyfile: calendar-monster-secret.json
   project: calendar-monster
   skip_cleanup: true
+  config: src/main/appengine/app.yaml
+  verbosity: info
 before_install:
 - openssl aes-256-cbc -K $encrypted_05278cc033a1_key -iv $encrypted_05278cc033a1_iv
   -in calendar-monster-secret.json.enc -out calendar-monster-secret.json
