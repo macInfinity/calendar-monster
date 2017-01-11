@@ -2,7 +2,7 @@ language: java
 jdk:
   - oraclejdk8
 sudo: false
-script: mvn clean verify
+script: mvn appengine:deploy
 env:
   - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
