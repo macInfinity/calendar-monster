@@ -152,6 +152,13 @@ So Travis CI uses it's own approach to deploying to GAE and the GAE maven plugin
 the `app.yaml` file under src/main/resources/app.yaml is not found by Travis CI, so now I've got
 two version of the file, just for now, until I get it all working together OR travis CI using
 Maven for the deploy (which I'm guessing will not be possible).
+I needed to enable the admin API, did that and got further but still not working.
+The `Google Cloud Storage JSON API` was already active in my account, but I did need to turn on
+the `Admin API` so that's good. From this bug report: https://github.com/travis-ci/travis-ci/issues/5350
+So it looks like we can just create our own GAE install in Travis-CI, for some reason I was
+thinking we didn't need to do this, anyway, I think this file will be helpful to get things
+working: https://github.com/GoogleCloudPlatform/continuous-deployment-demo/blob/master/.travis.yml
+After looking at the GAE Travis example I'm going to try installing the `java` component in Travis.
 
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
@@ -172,3 +179,5 @@ Links:
 * http://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/request-response-entity/
 * http://stackoverflow.com/questions/21324395/bootstrap-3-flush-footer-to-bottom-not-fixed
 * http://www.w3schools.com/cssref/css_selectors.asp
+* https://github.com/travis-ci/travis-ci/issues/5350
+* https://github.com/GoogleCloudPlatform/continuous-deployment-demo/blob/master/.travis.yml
