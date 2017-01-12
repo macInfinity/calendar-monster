@@ -159,7 +159,20 @@ So it looks like we can just create our own GAE install in Travis-CI, for some r
 thinking we didn't need to do this, anyway, I think this file will be helpful to get things
 working: https://github.com/GoogleCloudPlatform/continuous-deployment-demo/blob/master/.travis.yml
 After looking at the GAE Travis example I'm going to try installing the `java` component in
-Travis. So this post
+Travis.
+I'm giving up on Travis CI, moving on to CircleCI. So I'm giving up on tihs today, for some
+reason CircleCI and Travis are making this difficult, interesting so see how each service handles
+ the Google authentication keys. Travis using their own encryption tool and CircleCI using a
+ base64 encoded string and an environment variable.
+
+Jacked encoding, Issue #4
+First good hit tonight on the "black diamond with a question mark" in my text:
+http://stackoverflow.com/questions/5462693/java-removing-strange-characters-from-a-stringz
+The solution is using the java.text.Normalizer class to remove the bad characters, turns out other
+sites do this too, I just didnt' realize. This works great on my mac but sadly I need to use the
+Normalizer to get this working cross-platform. I blame Numbers for jacking this up.
+
+
 
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse

@@ -9,10 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.Normalizer;
 import java.util.Optional;
 
 import static com.cmcllc.util.DateTimeUtils.toiCalDate;
 import static com.cmcllc.util.DateTimeUtils.toiCalDateTimeOptional;
+import static java.text.Normalizer.normalize;
 
 /**
  * Created by chrismaki on 12/5/16.
@@ -54,10 +56,13 @@ public class CalendarEventUtil {
       vEvent.getProperties().add(new Uid(event.getUuid().toString()));
 
       if (StringUtils.isNotBlank(event.getDescription())) {
-        vEvent.getProperties().add(new Description(event.getDescription()));
+        // FIX: https://github.com/macInfinity/calendar-monster/issues/4
+        String normalizedDescription = normalize(event.getDescription(), Normalizer.Form.NFC);
+        vEvent.getProperties().add(new Description(normalizedDescription));
       }
       if (StringUtils.isNotBlank(event.getLocation())) {
-        vEvent.getProperties().add(new Location(event.getLocation()));
+        String normalizedLocation = normalize(event.getLocation(), Normalizer.Form.NFC);
+        vEvent.getProperties().add(new Location(normalizedLocation));
       }
       // only mark private if set as private
       if (event.isPrivateEvent()) {
@@ -72,7 +77,8 @@ public class CalendarEventUtil {
             event.getAlarmMinutes(), 0).negate();
         VAlarm alarm = new VAlarm(duratoin);
         alarm.getProperties().add(Action.DISPLAY);
-        alarm.getProperties().add(new Description(event.getAlarmDescription()));
+        String normalizedAlarmDesc = normalize(event.getAlarmDescription(), Normalizer.Form.NFC);
+        alarm.getProperties().add(new Description(normalizedAlarmDesc));
         vEvent.getAlarms().add(alarm);
 
       }
