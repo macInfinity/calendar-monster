@@ -18,6 +18,8 @@ import static java.text.Normalizer.normalize;
 
 /**
  * Created by chrismaki on 12/5/16.
+ *
+ * Utility to convert custom Calendar Event objects into VEvent objects.
  */
 public class CalendarEventUtil {
 
@@ -46,8 +48,16 @@ public class CalendarEventUtil {
       } else if (event.getEndDate() == null) {
         vEvent = new VEvent(toiCalDateTimeOptional(event.getStartDate(), event.getStartTime()),
             event.getSubject());
-      } else{
-        // TODO: check to make sure end date is after start data, if not, log warning
+      } else {
+        if (event.getEndDate().isBefore(event.getStartDate()) ||
+            event.getEndTime().isBefore(event.getStartTime())) {
+          // https://github.com/macInfinity/calendar-monster/issues/14
+          logger.warn("Event start {} is after end {}, defaulting to same date",
+              event.getStartDate(), event.getEndDate());
+          // set the end date/time to the start time.
+          event.setEndTime(event.getStartTime());
+          event.setEndDate(event.getStartDate());
+        }
         vEvent = new VEvent(toiCalDateTimeOptional(event.getStartDate(), event.getStartTime()),
             toiCalDateTimeOptional(event.getEndDate(), event.getEndTime()), event.getSubject());
       }

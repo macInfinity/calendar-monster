@@ -173,6 +173,10 @@ sites do this too, I just didnt' realize. This works great on my mac but sadly I
 Normalizer to get this working cross-platform. I blame Numbers for jacking this up.
 
 
+Vagrant
+To figure out what's up with the encoding over on GAE, I thought I'd install a debian Vagrant
+instance and run it over there. Here is how to get Java 8 on debian: http://tecadmin.net/install-java-8-on-debian/#
+
 
 Links:
 * https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
