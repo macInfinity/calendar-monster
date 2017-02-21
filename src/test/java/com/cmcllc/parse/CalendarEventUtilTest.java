@@ -11,7 +11,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -78,7 +80,7 @@ public class CalendarEventUtilTest {
     // end date/time should match start
     //noinspection OptionalGetWithoutIsPresent
     assertThat(result.get().getProperties().getProperty("DTEND").getValue(),
-        Matchers.containsString("20170220T133000"));
+        Matchers.containsString("20170220T140000"));
   }
 
   /**
@@ -110,6 +112,25 @@ public class CalendarEventUtilTest {
     //noinspection OptionalGetWithoutIsPresent
     assertThat(result.get().getProperties().getProperty("DTEND").getValue(),
         Matchers.containsString("20170221T140000"));
+  }
+
+  @Test
+  public void createVEvent_endNulls() {
+    calendarEvent.setEndDate(null);
+    calendarEvent.setEndTime(null);
+    Optional<VEvent> result = CalendarEventUtil.createVEvent(calendarEvent);
+
+    assertThat(result, isPresent());
+    //noinspection OptionalGetWithoutIsPresent
+    assertThat(result.get().getProperties().getProperty("DTEND"), nullValue());
+  }
+
+  @Test
+  public void createVEvent_startNulls() {
+    calendarEvent.setStartDate(null);
+    calendarEvent.setStartTime(null);
+    Optional<VEvent> result = CalendarEventUtil.createVEvent(calendarEvent);
+    assertThat(result, isEmpty());
   }
 
 }

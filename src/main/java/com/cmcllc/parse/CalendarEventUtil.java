@@ -1,6 +1,7 @@
 package com.cmcllc.parse;
 
 import com.cmcllc.domain.CalendarEvent;
+import com.google.common.base.Preconditions;
 import net.fortuna.ical4j.model.Dur;
 import net.fortuna.ical4j.model.component.VAlarm;
 import net.fortuna.ical4j.model.component.VEvent;
@@ -37,6 +38,9 @@ public class CalendarEventUtil {
   public static Optional<VEvent> createVEvent(CalendarEvent event) {
     VEvent vEvent = null;
     try {
+      // https://github.com/macInfinity/calendar-monster/issues/14
+      // basic assumption is that we have a Date.
+      Preconditions.checkNotNull(event.getStartDate());
 
       // by default, non-all day events will be opaque
       Transp transp = Transp.OPAQUE;
@@ -49,14 +53,18 @@ public class CalendarEventUtil {
         vEvent = new VEvent(toiCalDateTimeOptional(event.getStartDate(), event.getStartTime()),
             event.getSubject());
       } else {
-        if (event.getEndDate().isBefore(event.getStartDate()) ||
-            event.getEndTime().isBefore(event.getStartTime())) {
-          // https://github.com/macInfinity/calendar-monster/issues/14
-          logger.warn("Event start {} is after end {}, defaulting to same date",
-              event.getStartDate(), event.getEndDate());
-          // set the end date/time to the start time.
-          event.setEndTime(event.getStartTime());
+        // https://github.com/macInfinity/calendar-monster/issues/14
+        if (event.getEndDate().isBefore(event.getStartDate())) {
+          logger.warn("Event end date {} is before start date {}, defaulting to same date",
+              event.getEndDate(), event.getStartDate());
           event.setEndDate(event.getStartDate());
+        }
+        // check the end time to make sure it comes after start time
+        if (event.getEndDate().equals(event.getStartDate())) {
+          if (event.getEndTime() != null && event.getStartTime() != null
+              && event.getEndTime().isBefore(event.getStartTime())) {
+            event.setEndTime(event.getStartTime());
+          }
         }
         vEvent = new VEvent(toiCalDateTimeOptional(event.getStartDate(), event.getStartTime()),
             toiCalDateTimeOptional(event.getEndDate(), event.getEndTime()), event.getSubject());
@@ -94,7 +102,7 @@ public class CalendarEventUtil {
       }
 
     } catch (Exception e) {
-      logger.warn("error creating a VEvent, message: {}", e.getMessage());
+      logger.warn("error creating a VEvent, message: {}", e.getMessage(),e);
     }
 
     return Optional.ofNullable(vEvent);
