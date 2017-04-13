@@ -111,12 +111,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!--<plugin>-->
+                <!--<groupId>com.google.cloud.tools</groupId>-->
+                <!--<artifactId>appengine-maven-plugin</artifactId>-->
+                <!--<version>1.0.0</version>-->
+            <!--</plugin>-->
             <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>appengine-maven-plugin</artifactId>
-                <version>1.0.0</version>
-            </plugin>
-            <plugin>
+                <!--
+                this plugin will create a variable, buildNumber and make it available in the mvn
+                 context.
+                -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
                 <version>1.4</version>
@@ -142,6 +146,10 @@
                 </configuration>
             </plugin>
             <plugin>
+                <!--
+                enable Maven to generate a Docker image for this project, taken from here:
+                https://spring.io/guides/gs/spring-boot-docker/
+                -->
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.13</version>
