@@ -3,13 +3,13 @@
 // Initial version of this file came from: https://www.youtube.com/watch?v=ORNDwYXa4nQ
 //
 node {
-    properties([
-            parameters([
-                    string(defaultValue: '1.0', description:
-                            'The major release of this project', name: 'MAJOR_RELEASE'
-                    )
-            ])
-    ])
+
+    properties(
+            [[$class: 'ParametersDefinitionProperty', parameterDefinitions:
+                    [[$class: 'StringParameterDefinition', defaultValue: "1.0", description:
+                            "The major release of this project", name: 'MAJOR_RELEASE'
+                     ]]
+             ]])
 
     // checkout master
     git "https://github.com/macInfinity/calendar-monster.git"
