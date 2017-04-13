@@ -2,7 +2,7 @@
 
 // Initial version of this file came from: https://www.youtube.com/watch?v=ORNDwYXa4nQ
 //
-node ('CI') {
+node {
     properties([
             parameters([
                     string(defaultValue: '1.0', description:
