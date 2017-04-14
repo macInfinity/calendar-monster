@@ -20,7 +20,7 @@ node {
     // the complete build and push to repository
     withEnv(["JAVA_HOME=$java",
             "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin",
-            "MAJOR_RELEASE=1.0"
+            "MAJOR_RELEASE=1.0",
             "RELEASE_NUMBER=$MAJOR_RELEASE.$BUILD_NUMBER",
             "RELEASE_BRANCH=$JOB_NAME-$RELEASE_NUMBER"]) {
 
