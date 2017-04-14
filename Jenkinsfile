@@ -4,12 +4,12 @@
 //
 node {
 
-    properties(
-            [[$class: 'ParametersDefinitionProperty', parameterDefinitions:
-                    [[$class: 'StringParameterDefinition', defaultValue: "1.0", description:
-                            "The major release of this project", name: 'MAJOR_RELEASE'
-                     ]]
-             ]])
+//    properties(
+//            [[$class: 'ParametersDefinitionProperty', parameterDefinitions:
+//                    [[$class: 'StringParameterDefinition', defaultValue: "1.0", description:
+//                            "The major release of this project", name: 'MAJOR_RELEASE'
+//                     ]]
+//             ]])
 
     // checkout master
     git "https://github.com/macInfinity/calendar-monster.git"
@@ -20,6 +20,7 @@ node {
     // the complete build and push to repository
     withEnv(["JAVA_HOME=$java",
             "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin",
+            "MAJOR_RELEASE=1.0"
             "RELEASE_NUMBER=$MAJOR_RELEASE.$BUILD_NUMBER",
             "RELEASE_BRANCH=$JOB_NAME-$RELEASE_NUMBER"]) {
 
