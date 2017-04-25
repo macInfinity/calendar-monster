@@ -20,9 +20,10 @@ node {
 
     // the complete build and push to repository
     withEnv(["JAVA_HOME=$java",
-            "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin",
-            "RELEASE_NUMBER=$MAJOR_VERSION.$BUILD_NUMBER",
-            "RELEASE_BRANCH=$JOB_NAME-$RELEASE_NUMBER"]) {
+            "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin"]) {
+
+        def RELEASE_NUMBER="$MAJOR_VERSION.$BUILD_NUMBER"
+        def RELEASE_BRANCH="$JOB_NAME-$RELEASE_NUMBER"
 
         // create release branch
         sh "git checkout -b $RELEASE_BRANCH"
