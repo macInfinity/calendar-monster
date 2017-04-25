@@ -28,16 +28,21 @@ node {
         // create release branch
         sh "git checkout -b $RELEASE_BRANCH"
 
-        // update version number
-        sh "mvn org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
+        try {
 
-        // build artifact, always look for updates
-        // this could be deploy instead of install OR we can push later
-        sh "mvn clean install -U"
+            // update version number
+            mvn  "org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
 
-        // need to check build status, if successful then push, else delete the branch
-        sh "git commit -a -m \"new release candidate\" "
-        sh "git push origin $RELEASE_BRANCH"
+            // build artifact, always look for updates
+            // this could be deploy instead of install OR we can push later
+            mvn "clean install -U"
+        } finally {
+            junit '**/target/*.xml'
+
+            sh "git commit -a -m \"new release candidate\" "
+            sh "git push origin $RELEASE_BRANCH"
+        }
+
 
     }
 }
