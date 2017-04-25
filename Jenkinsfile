@@ -51,8 +51,12 @@ node {
     }
 
     stage('Commit and Push') {
-        sh "git commit -a -m \"new release candidate\" "
-        sh "git push origin $RELEASE_BRANCH"
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'MyID',
+                          usernameVariable: 'macInfinity', passwordVariable: 'a7y65tmm']]) {
+
+            sh "git commit -a -m \"new release candidate\" "
+            sh "git push origin $RELEASE_BRANCH"
+        }
     }
 
 }
