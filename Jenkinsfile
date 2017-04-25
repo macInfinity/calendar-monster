@@ -2,12 +2,13 @@
 
 // Initial version of this file came from: https://www.youtube.com/watch?v=ORNDwYXa4nQ
 //
+def MAJOR_VERSION="1.0"
 node {
 
 //    properties(
 //            [[$class: 'ParametersDefinitionProperty', parameterDefinitions:
 //                    [[$class: 'StringParameterDefinition', defaultValue: "1.0", description:
-//                            "The major release of this project", name: 'MAJOR_RELEASE'
+//                            "The major release of this project", name: 'MAJOR_VERSION'
 //                     ]]
 //             ]])
 
@@ -20,8 +21,7 @@ node {
     // the complete build and push to repository
     withEnv(["JAVA_HOME=$java",
             "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin",
-            "MAJOR_RELEASE=1.0",
-            "RELEASE_NUMBER=$MAJOR_RELEASE.$BUILD_NUMBER",
+            "RELEASE_NUMBER=$MAJOR_VERSION.$BUILD_NUMBER",
             "RELEASE_BRANCH=$JOB_NAME-$RELEASE_NUMBER"]) {
 
         // create release branch
@@ -30,9 +30,11 @@ node {
         // update version number
         sh "mvn org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
 
-        // build artifact
-        sh "mvn clean install"
+        // build artifact, always look for updates
+        // this could be deploy instead of install OR we can push later
+        sh "mvn clean install -U"
 
+        // need to check build status, if successful then push, else delete the branch
         sh "git commit -a -m \"new release candidate\" "
         sh "git push origin $RELEASE_BRANCH"
 
@@ -40,8 +42,8 @@ node {
 }
 
 // the main build needs the following:
-// MAJOR_RELEASE value, this used to be set in Jenkins, say 2.0 or 3.1
+// MAJOR_VERSION value, this used to be set in Jenkins, say 2.0 or 3.1
 // BUILD_NUMBER this value is the build number from Jenkins, if this is build 234, then this
 //                value is 234
-// RELEASE_NUMBER $MAJOR_RELEASE.$BUILD_NUMBER
+// RELEASE_NUMBER $MAJOR_VERSION.$BUILD_NUMBER
 // RELEASE_BRANCH this is the branch name we'll create in GIT and is: $project-$RELEASE_NUMBER
