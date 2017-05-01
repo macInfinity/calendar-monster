@@ -30,7 +30,7 @@ node {
 
 
             // create release branch
-            sh "git checkout -b $RELEASE_BRANCH"
+//            sh "git checkout -b $RELEASE_BRANCH"
 
             try {
 
@@ -51,10 +51,11 @@ node {
     }
 
     stage('Commit and Push') {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'MyID',
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'macInfinity',
                           usernameVariable: 'macInfinity', passwordVariable: 'a7y65tmm']]) {
 
-            sh "git commit -a -m \"new release candidate\" "
+//            sh "git commit -a -m \"new release candidate\" "
+            sh "git tag -a $RELEASE_BRANCH -m \"new release candidate\" "
             sh "git push origin $RELEASE_BRANCH"
         }
     }
