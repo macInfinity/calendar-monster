@@ -5,13 +5,6 @@
 def MAJOR_VERSION="1.0"
 node {
 
-//    properties(
-//            [[$class: 'ParametersDefinitionProperty', parameterDefinitions:
-//                    [[$class: 'StringParameterDefinition', defaultValue: "1.0", description:
-//                            "The major release of this project", name: 'MAJOR_VERSION'
-//                     ]]
-//             ]])
-
     def java = tool 'java 8'
     def maven = tool 'maven 3.3.9'
 
@@ -24,7 +17,6 @@ node {
     }
 
     stage('Build') {
-        // the complete build and push to repository
         withEnv(["JAVA_HOME=$java",
                  "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin"]) {
 
@@ -41,14 +33,12 @@ node {
                 junit '**/target/*.xml'
 
             }
-
-
         }
     }
 
-    stage('Commit and Push') {
+    stage('Tag and Push') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'macInfinity',
-                          usernameVariable: 'macInfinity', passwordVariable: 'a7y65tmm']]) {
+                          usernameVariable: 'macInfinity', passwordVariable: 'xxx']]) {
 
             sh "git tag -a $RELEASE_BRANCH -m \"new release candidate\" "
             sh "git push origin $RELEASE_BRANCH"
