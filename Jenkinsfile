@@ -20,11 +20,11 @@ node {
                  "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin"]) {
             try {
                 // update version number
-                maven "org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
+                sh "mvn org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
 
                 // build artifact, always look for updates
                 // this could be deploy instead of install OR we can push later
-                maven "clean install -U"
+                sh "mvn clean install -U"
 
             } finally {
                 junit '**/target/*.xml'
