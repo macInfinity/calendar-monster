@@ -35,7 +35,7 @@ node {
                 sh "mvn clean install -U"
 
             } finally {
-                junit '**/target/*.xml'
+                junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
 
             }
 
