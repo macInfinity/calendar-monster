@@ -33,7 +33,6 @@ node {
 //            sh "git checkout -b $RELEASE_BRANCH"
 
             try {
-
                 // update version number
                 mvn  "org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
 
@@ -41,12 +40,31 @@ node {
                 // this could be deploy instead of install OR we can push later
                 mvn "clean install -U"
 
+            } catch( error) {
+                echo "caught error: " + error
             } finally {
                 junit '**/target/*.xml'
 
             }
 
+<<<<<<< HEAD
 
+=======
+    stage('Tag and Push') {
+        git credentialsId: 'macInfinity-github',
+                url: 'git@github.com:macInfinity/calendar-monster.git',
+                script: "git tag -a $RELEASE_BRANCH -m \"new release candidate\" "
+
+        git credentialsId: 'macInfinity-github',
+                url: 'git@github.com:macInfinity/calendar-monster.git',
+                script: "git push origin $RELEASE_BRANCH"
+
+//        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'macInfinity',
+//                          usernameVariable: 'macInfinity', passwordVariable: 'xxx']]) {
+//
+//            sh "git tag -a $RELEASE_BRANCH -m \"new release candidate\" "
+//            sh "git push origin $RELEASE_BRANCH"
+>>>>>>> 7a19704... trying git credentials
         }
     }
 
