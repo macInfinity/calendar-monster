@@ -4,13 +4,6 @@ def MAJOR_VERSION = "1.0"
 
 node {
 
-//    properties(
-//            [[$class: 'ParametersDefinitionProperty', parameterDefinitions:
-//                    [[$class: 'StringParameterDefinition', defaultValue: "1.0", description:
-//                            "The major release of this project", name: 'MAJOR_VERSION'
-//                     ]]
-//             ]])
-
     def java = tool 'java 8'
     def maven = tool 'maven 3.3.9'
 
@@ -27,7 +20,8 @@ node {
                  "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin"]) {
             try {
                 // update version number
-                sh "mvn org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
+                sh "mvn org.codehaus.mojo:versions-maven-plugin:2.3:set " +
+                        "-DnewVersion=$RELEASE_NUMBER"
 
                 // build artifact, always look for updates
                 // this could be deploy instead of install OR we can push later
@@ -47,7 +41,8 @@ node {
                           usernameVariable: 'GIT_USERNAME',
                           passwordVariable: 'GIT_PASSWORD']]) {
             sh "git tag -a $RELEASE_TAG -m \"new release candidate\""
-            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/macInfinity/calendar-monster.git $RELEASE_TAG"
+            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@" +
+                    "github.com/macInfinity/calendar-monster.git $RELEASE_TAG"
         }
     }
 
