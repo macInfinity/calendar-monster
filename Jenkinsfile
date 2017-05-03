@@ -1,8 +1,7 @@
 #!groovy
 
-// Initial version of this file came from: https://www.youtube.com/watch?v=ORNDwYXa4nQ
-//
 def MAJOR_VERSION = "1.0"
+
 node {
 
 //    properties(
@@ -55,11 +54,4 @@ node {
     }
 
 }
-
-// the main build needs the following:
-// MAJOR_VERSION value, this used to be set in Jenkins, say 2.0 or 3.1
-// BUILD_NUMBER this value is the build number from Jenkins, if this is build 234, then this
-//                value is 234
-// RELEASE_NUMBER $MAJOR_VERSION.$BUILD_NUMBER
-// RELEASE_BRANCH this is the branch name we'll create in GIT and is: $project-$RELEASE_NUMBER
 
