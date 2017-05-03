@@ -6,7 +6,6 @@ node {
 
     def java = tool 'java 8'
     def maven = tool 'maven 3.3.9'
-    def git = tool name: 'Default',  type: 'git'
 
     def RELEASE_NUMBER = "$MAJOR_VERSION.$BUILD_NUMBER"
     def RELEASE_TAG = "$JOB_NAME-$RELEASE_NUMBER"
@@ -38,16 +37,14 @@ node {
 
     // https://github.com/dalalv/jenkinsfiles/blob/master/jenkinsfile-push-to-git-repo
     stage('Tag and Push') {
-//        withCredentials([[$class          : 'UsernamePasswordMultiBinding',
-//                          credentialsId   : 'macInfinity-github',
-//                          usernameVariable: 'GIT_USERNAME',
-//                          passwordVariable: 'GIT_PASSWORD']]) {
-//            sh "git tag -a $RELEASE_TAG -m \"new release candidate\""
-//            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@" +
-//                    "github.com/macInfinity/calendar-monster.git $RELEASE_TAG"
-//        }
-        sh "${git} tag -a $RELEASE_TAG -m \"new release candidate\""
-        sh "${git} push origin $RELEASE_TAG"
+        withCredentials([[$class          : 'UsernamePasswordMultiBinding',
+                          credentialsId   : 'macInfinity-github',
+                          usernameVariable: 'GIT_USERNAME',
+                          passwordVariable: 'GIT_PASSWORD']]) {
+            sh "git tag -a $RELEASE_TAG -m \"new release candidate\""
+            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@" +
+                    "github.com/macInfinity/calendar-monster.git $RELEASE_TAG"
+        }
     }
 
 }
