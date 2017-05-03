@@ -38,8 +38,8 @@ node {
                           credentialsId   : 'macInfinity-github',
                           usernameVariable: 'GIT_USERNAME',
                           passwordVariable: 'GIT_PASSWORD']]) {
-            sh "git tag -a $RELEASE_TAG -m 'new release candidate'"
-            sh "git push origin $RELEASE_TAG"
+            sh "git tag -a $RELEASE_TAG -m \"new release candidate\""
+            sh "git push origin https://${GIT_USERNAME}:${GIT_PASSWORD}@calendar-monster --tags"
         }
 
     }
