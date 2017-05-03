@@ -8,14 +8,14 @@ node {
     def maven = tool 'maven 3.3.9'
 
     def RELEASE_NUMBER = "$MAJOR_VERSION.$BUILD_NUMBER"
-    def RELEASE_BRANCH = "$JOB_NAME-$RELEASE_NUMBER"
+    def RELEASE_TAG = "$JOB_NAME-$RELEASE_NUMBER"
 
     stage('Checkout') {
         // checkout master
         git "https://github.com/macInfinity/calendar-monster.git"
     }
 
-    stage('Build') {
+    stage('Build and Test') {
         withEnv(["JAVA_HOME=$java",
                  "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin"]) {
             try {
@@ -34,13 +34,13 @@ node {
     }
 
     stage('Tag and Push') {
-        git credentialsId: 'macInfinity-github',
-                url: 'git@github.com:macInfinity/calendar-monster.git',
-                script: "git tag -a $RELEASE_BRANCH -m \"new release candidate\" "
-
-        git credentialsId: 'macInfinity-github',
-                url: 'git@github.com:macInfinity/calendar-monster.git',
-                script: "git push origin $RELEASE_BRANCH"
+        withCredentials([[$class          : 'UsernamePasswordMultiBinding',
+                          credentialsId   : 'macInfinity-github',
+                          usernameVariable: 'GIT_USERNAME',
+                          passwordVariable: 'GIT_PASSWORD']]) {
+            sh "git tag -a $RELEASE_TAG -m 'new release candidate'"
+            sh "git push origin $RELEASE_TAG"
+        }
 
     }
 }
