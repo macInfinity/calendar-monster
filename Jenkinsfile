@@ -26,21 +26,14 @@ node {
         // the complete build and push to repository
         withEnv(["JAVA_HOME=$java",
                  "PATH+MAVEN=$maven/bin:${env.JAVA_HOME}/bin"]) {
-
-
-            // create release branch
-//            sh "git checkout -b $RELEASE_BRANCH"
-
             try {
                 // update version number
-                mvn "org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
+                maven "org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$RELEASE_NUMBER"
 
                 // build artifact, always look for updates
                 // this could be deploy instead of install OR we can push later
-                mvn "clean install -U"
+                maven "clean install -U"
 
-            } catch (error) {
-                echo "caught error: " + error
             } finally {
                 junit '**/target/*.xml'
 
