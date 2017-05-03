@@ -30,7 +30,7 @@ node {
 
 
             // create release branch
-            sh "git checkout -b $RELEASE_BRANCH"
+//            sh "git checkout -b $RELEASE_BRANCH"
 
             try {
 
