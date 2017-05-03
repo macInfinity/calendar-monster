@@ -33,13 +33,14 @@ node {
         }
     }
 
+    // https://github.com/dalalv/jenkinsfiles/blob/master/jenkinsfile-push-to-git-repo
     stage('Tag and Push') {
         withCredentials([[$class          : 'UsernamePasswordMultiBinding',
                           credentialsId   : 'macInfinity-github',
                           usernameVariable: 'GIT_USERNAME',
                           passwordVariable: 'GIT_PASSWORD']]) {
             sh "git tag -a $RELEASE_TAG -m \"new release candidate\""
-            sh "git push origin https://${GIT_USERNAME}:${GIT_PASSWORD}@calendar-monster --tags"
+            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/macInfinity/calendar-monster.git $RELEASE_TAG"
         }
 
     }
