@@ -28,12 +28,6 @@ public class CalendarMonsterConfig {
   @Value("${app.cleanup.delay:600000}")
   private int fixedDelayString;
 
-  /**
-   * the sha-1 value when the application was compiled
-   */
-  @Value("${app.sha-1:1234567}")
-  private String appSha1;
-
   public CalendarMonsterConfig() {}
 
   public CalendarMonsterConfig(boolean cleanupOnExitEnabled, int delayToDeleteFiles) {
@@ -55,21 +49,5 @@ public class CalendarMonsterConfig {
 
   public void setDelayToDeleteFiles(int delayToDeleteFiles) {
     this.delayToDeleteFiles = delayToDeleteFiles;
-  }
-
-  public String getAppSha1() {
-    return appSha1;
-  }
-
-  public void setAppSha1(String appSha1) {
-    this.appSha1 = appSha1;
-  }
-
-  public String getShortAppSha1() {
-    if (StringUtils.isEmpty(appSha1) || appSha1.length() < 7) {
-      return "";
-    }
-    // return the first 7 characters
-    return appSha1.substring(0,6);
   }
 }

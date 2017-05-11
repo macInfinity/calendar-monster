@@ -2,7 +2,7 @@ package com.cmcllc.controller;
 
 import com.cmcllc.CalendarMonsterApplication;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,13 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 /**
  * Created by chrismaki on 12/10/16.
  * <p>
@@ -29,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CalendarMonsterApplication.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
+@Ignore
 public class CalendarControllerTest {
 
   private MockMvc mockMvc;
@@ -41,12 +35,4 @@ public class CalendarControllerTest {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
   }
 
-  @Test
-  public void getSha1() throws Exception {
-    mockMvc.perform(get("/sha1")
-        .accept(APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.sha1", notNullValue()))
-        .andDo(print());
-  }
 }

@@ -6,10 +6,6 @@
 spring:
   profiles:
     active: dev
-app:
-# look at springboot GitInfoContributor it will expose this for you via the git.properties property
-  sha-1: @buildNumber@
-  git.id: @git.commit.id.abbrev@
 
 ---
 spring:
