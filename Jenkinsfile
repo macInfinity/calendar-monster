@@ -11,8 +11,6 @@ node {
     def RELEASE_TAG = "$JOB_NAME-$RELEASE_NUMBER"
 
     stage('Checkout') {
-        // checkout master
-//        git "https://github.com/macInfinity/calendar-monster.git"
         checkout scm
     }
 

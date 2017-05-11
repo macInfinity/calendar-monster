@@ -80,6 +80,14 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        <!--
+        Add Actuator endpoints to your service
+        https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -107,6 +115,13 @@
 
     <build>
         <plugins>
+            <!--
+            https://docs.spring.io/spring-boot/docs/current/reference/html/howto-build.html#howto-git-info
+            -->
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -140,7 +155,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <git-SHA-1>${buildNumber}</git-SHA-1>
+                            <git-SHA-1>${git.commit.id}</git-SHA-1>
                         </manifestEntries>
                     </archive>
                 </configuration>
