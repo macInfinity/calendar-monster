@@ -131,7 +131,7 @@
         $.ajax({
            url: '/info'
         }).then(function(data) {
-            $('.id').append(data.git.id)
+            $('.sha1').append(data.git.commit.id)
         });
     });
 
