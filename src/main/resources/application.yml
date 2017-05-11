@@ -19,6 +19,8 @@ app:
     delay: 60000
     deletetime: 4
     onexit: true
+server:
+    port: 9000
 
 ---
 # this section is good when interacting with Spring classes/services
