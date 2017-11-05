@@ -7,6 +7,13 @@ spring:
   profiles:
     active: dev
 
+info:
+  app:
+    name: @project.name@
+    version: @project.version@
+    description: @project.description@
+
+
 ---
 spring:
   profiles: dev
@@ -20,7 +27,7 @@ app:
     deletetime: 4
     onexit: true
 server:
-    port: 9000
+    port: 8888
 
 ---
 # this section is good when interacting with Spring classes/services
@@ -43,3 +50,4 @@ app:
     onexit: true
     deletetime: 2
     delay: 900000
+
