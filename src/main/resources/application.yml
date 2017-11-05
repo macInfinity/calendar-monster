@@ -6,10 +6,13 @@
 spring:
   profiles:
     active: dev
-app:
-# look at springboot GitInfoContributor it will expose this for you via the git.properties property
-  sha-1: @buildNumber@
-  git.id: @git.commit.id.abbrev@
+
+info:
+  app:
+    name: @project.name@
+    version: @project.version@
+    description: @project.description@
+
 
 ---
 spring:
@@ -23,6 +26,8 @@ app:
     delay: 60000
     deletetime: 4
     onexit: true
+server:
+    port: 8888
 
 ---
 # this section is good when interacting with Spring classes/services
@@ -45,3 +50,4 @@ app:
     onexit: true
     deletetime: 2
     delay: 900000
+

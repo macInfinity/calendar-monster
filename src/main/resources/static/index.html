@@ -129,9 +129,9 @@
 
     $(document).ready(function () {
         $.ajax({
-           url: '/sha1'
+           url: '/info'
         }).then(function(data) {
-            $('.sha1').append(data.sha1)
+            $('.sha1').append(data.git.commit.id)
         });
     });
 

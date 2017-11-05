@@ -18,25 +18,4 @@ public class CalendarMonsterConfigTest {
     config = new CalendarMonsterConfig();
   }
 
-  @Test
-  public void getShortAppSha1_noValue()  {
-    Deencapsulation.setField(config, "appSha1", null);
-    String result = config.getShortAppSha1();
-    assertThat(result, is(""));
-  }
-
-  @Test
-  public void getShortAppSha1_jacked()  {
-    Deencapsulation.setField(config, "appSha1", "1234");
-    String result = config.getShortAppSha1();
-    assertThat(result, is(""));
-  }
-
-  @Test
-  public void getShortAppSha1()  {
-    Deencapsulation.setField(config, "appSha1", "506af8698a5162d380192c9e722a721c064d7d37w");
-    String result = config.getShortAppSha1();
-    assertThat(result, is("506af8"));
-  }
-
 }

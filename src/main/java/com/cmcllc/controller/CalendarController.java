@@ -24,11 +24,4 @@ public class CalendarController {
     this.config = config;
   }
 
-  @GetMapping("/sha1")
-  public ResponseEntity<Object> getSha1() {
-    return ResponseEntity.ok(
-        ImmutableMap.<String, String>builder()
-            .put("sha1", config.getShortAppSha1())
-            .build());
-  }
 }

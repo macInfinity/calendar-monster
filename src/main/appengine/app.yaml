@@ -7,6 +7,9 @@
 runtime: java
 env: flex
 
+server:
+  port: 9000
+
 runtime_config:  # Optional
   jdk: openjdk8
 
